@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RandoBot.Service</name>
+    </assembly>
+    <members>
+        <member name="T:RandoBot.Service.Program">
+            <summary>
+            The program class which bootstrap the applicaiton.
+            </summary>
+        </member>
+        <member name="M:RandoBot.Service.Program.Main(System.String[])">
+            <summary>
+            The main entry point.
+            </summary>
+            <param name="args">The arguments.</param>
+        </member>
+        <member name="T:RandoBot.Service.Startup">
+            <summary>
+            The startup class.
+            </summary>
+        </member>
+        <member name="M:RandoBot.Service.Startup.#ctor(Microsoft.AspNetCore.Hosting.IHostingEnvironment)">
+            <summary>
+            Initialize a new instance of the <see cref="T:RandoBot.Service.Startup"/> class
+            </summary>
+            <param name="env">The environment.</param>
+        </member>
+        <member name="P:RandoBot.Service.Startup.Configuration">
+            <summary>
+            The configuration.
+            </summary>
+        </member>
+        <member name="M:RandoBot.Service.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Configures the services.
+            </summary>
+            <param name="services">The services to configure.</param>
+        </member>
+        <member name="M:RandoBot.Service.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment,Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            Configures the application.
+            </summary>
+            <param name="app">The application to configure.</param>
+            <param name="env">The environment to configure.</param>
+            <param name="loggerFactory">The log factory to configure.</param>
+        </member>
+        <member name="T:PriceTagCloud.Service.Controllers.FacebookController">
+            <summary>
+            The FacebookController class.
+            </summary>
+        </member>
+        <member name="M:PriceTagCloud.Service.Controllers.FacebookController.#ctor(Messenger.Client.Services.IMessengerMessageSender)">
+            <summary>
+            Initializes a new instance of the FacebookController class.
+            </summary>
+            <param name="messageSender"></param>
+        </member>
+        <member name="M:PriceTagCloud.Service.Controllers.FacebookController.Validate">
+            <summary>
+            Validates the sender.
+            </summary>
+            <returns>The response.</returns>
+        </member>
+        <member name="M:PriceTagCloud.Service.Controllers.FacebookController.HandleMessage(Messenger.Client.Objects.MessengerObject)">
+            <summary>
+            Handles the message.
+            </summary>
+            <param name="obj">The message object.</param>
+            <returns>The response.</returns>
+        </member>
+    </members>
+</doc>
