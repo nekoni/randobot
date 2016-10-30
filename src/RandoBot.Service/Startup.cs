@@ -89,6 +89,8 @@ namespace RandoBot.Service
 
             app.UseStaticFiles();
 
+            app.UseMvc();
+
             app.UseSwagger();
 
             app.UseSwaggerUi();
