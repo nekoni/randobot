@@ -1,7 +1,6 @@
 {
   "name": "RandoBot.Service",
   "description": "RandoBot Service",
-  "logo": "",
   "keywords": ["heroku", "asp.net-core"],
   "env": {
     "PUBLISH_APP_DIR": {
