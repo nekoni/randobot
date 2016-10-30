@@ -27,8 +27,9 @@
     "Swashbuckle.SwaggerGen": "6.0.0-beta901",
     "Swashbuckle.SwaggerUi": "6.0.0-beta901",
     "Messenger.Client": "0.2.5",
-    "Messenger.Client.Extensions": "0.2.5"
-  },
+    "Messenger.Client.Extensions": "0.2.5",
+    "dotnetcorewitai": "1.0.0",
+    "MongoDB.Driver": "2.4.0-beta1"},
 
   "tools": {
     "BundlerMinifier.Core": "2.0.238",

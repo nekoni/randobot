@@ -17,6 +17,7 @@
 --version:1.0.0.0
 --informational-version:1.0.0
 --target-framework:.NETCoreApp,Version=v1.0
+--reference:C:\Users\mirko\.nuget\packages\dotnetcorewitai\1.0.0\lib\netstandard1.6\dotnetcorewitai.dll
 --reference:C:\Users\mirko\.nuget\packages\Microsoft.AspNetCore.Antiforgery\1.0.0\lib\netstandard1.3\Microsoft.AspNetCore.Antiforgery.dll
 --reference:C:\Users\mirko\.nuget\packages\Microsoft.AspNetCore.Authorization\1.0.0\lib\netstandard1.3\Microsoft.AspNetCore.Authorization.dll
 --reference:C:\Users\mirko\.nuget\packages\Microsoft.AspNetCore.Cors\1.0.0\lib\netstandard1.3\Microsoft.AspNetCore.Cors.dll
@@ -100,6 +101,9 @@
 --reference:C:\Users\mirko\.nuget\packages\Microsoft.VisualStudio.Web.BrowserLink.Loader\14.0.0\lib\netstandard1.5\Microsoft.VisualStudio.Web.BrowserLink.Loader.dll
 --reference:C:\Users\mirko\.nuget\packages\Microsoft.Win32.Primitives\4.0.1\ref\netstandard1.3\Microsoft.Win32.Primitives.dll
 --reference:C:\Users\mirko\.nuget\packages\Microsoft.Win32.Registry\4.0.0\ref\netstandard1.3\Microsoft.Win32.Registry.dll
+--reference:C:\Users\mirko\.nuget\packages\MongoDB.Bson\2.4.0-beta1\lib\netstandard1.5\MongoDB.Bson.dll
+--reference:C:\Users\mirko\.nuget\packages\MongoDB.Driver\2.4.0-beta1\lib\netstandard1.5\MongoDB.Driver.dll
+--reference:C:\Users\mirko\.nuget\packages\MongoDB.Driver.Core\2.4.0-beta1\lib\netstandard1.5\MongoDB.Driver.Core.dll
 --reference:C:\Users\mirko\.nuget\packages\Newtonsoft.Json\9.0.1\lib\netstandard1.0\Newtonsoft.Json.dll
 --reference:C:\Users\mirko\.nuget\packages\NuGet.Common\3.5.0-beta2-1484\lib\netstandard1.3\NuGet.Common.dll
 --reference:C:\Users\mirko\.nuget\packages\NuGet.Configuration\3.5.0-beta2-1484\lib\netstandard1.3\NuGet.Configuration.dll
@@ -124,17 +128,20 @@
 --reference:C:\Users\mirko\.nuget\packages\System.Collections.Concurrent\4.0.12\ref\netstandard1.3\System.Collections.Concurrent.dll
 --reference:C:\Users\mirko\.nuget\packages\System.Collections.Immutable\1.2.0\lib\netstandard1.0\System.Collections.Immutable.dll
 --reference:C:\Users\mirko\.nuget\packages\System.Collections.NonGeneric\4.0.1\ref\netstandard1.3\System.Collections.NonGeneric.dll
+--reference:C:\Users\mirko\.nuget\packages\System.Collections.Specialized\4.0.1\ref\netstandard1.3\System.Collections.Specialized.dll
 --reference:C:\Users\mirko\.nuget\packages\System.ComponentModel\4.0.1\ref\netstandard1.0\System.ComponentModel.dll
 --reference:C:\Users\mirko\.nuget\packages\System.ComponentModel.Annotations\4.1.0\ref\netstandard1.4\System.ComponentModel.Annotations.dll
 --reference:C:\Users\mirko\.nuget\packages\System.ComponentModel.Primitives\4.1.0\ref\netstandard1.0\System.ComponentModel.Primitives.dll
 --reference:C:\Users\mirko\.nuget\packages\System.ComponentModel.TypeConverter\4.1.0\ref\netstandard1.5\System.ComponentModel.TypeConverter.dll
 --reference:C:\Users\mirko\.nuget\packages\System.Console\4.0.0\ref\netstandard1.3\System.Console.dll
+--reference:C:\Users\mirko\.nuget\packages\System.Data.Common\4.1.0\ref\netstandard1.2\System.Data.Common.dll
 --reference:C:\Users\mirko\.nuget\packages\System.Diagnostics.Contracts\4.0.1\ref\netstandard1.0\System.Diagnostics.Contracts.dll
 --reference:C:\Users\mirko\.nuget\packages\System.Diagnostics.Debug\4.0.11\ref\netstandard1.3\System.Diagnostics.Debug.dll
 --reference:C:\Users\mirko\.nuget\packages\System.Diagnostics.DiagnosticSource\4.0.0\lib\netstandard1.3\System.Diagnostics.DiagnosticSource.dll
 --reference:C:\Users\mirko\.nuget\packages\System.Diagnostics.Process\4.1.0\ref\netstandard1.4\System.Diagnostics.Process.dll
 --reference:C:\Users\mirko\.nuget\packages\System.Diagnostics.StackTrace\4.0.1\ref\netstandard1.3\System.Diagnostics.StackTrace.dll
 --reference:C:\Users\mirko\.nuget\packages\System.Diagnostics.Tools\4.0.1\ref\netstandard1.0\System.Diagnostics.Tools.dll
+--reference:C:\Users\mirko\.nuget\packages\System.Diagnostics.TraceSource\4.0.0\ref\netstandard1.3\System.Diagnostics.TraceSource.dll
 --reference:C:\Users\mirko\.nuget\packages\System.Diagnostics.Tracing\4.1.0\ref\netstandard1.5\System.Diagnostics.Tracing.dll
 --reference:C:\Users\mirko\.nuget\packages\System.Dynamic.Runtime\4.0.11\ref\netstandard1.3\System.Dynamic.Runtime.dll
 --reference:C:\Users\mirko\.nuget\packages\System.Globalization\4.0.11\ref\netstandard1.3\System.Globalization.dll
@@ -164,6 +171,8 @@
 --reference:C:\Users\mirko\.nuget\packages\System.ObjectModel\4.0.12\ref\netstandard1.3\System.ObjectModel.dll
 --reference:C:\Users\mirko\.nuget\packages\System.Reflection\4.1.0\ref\netstandard1.5\System.Reflection.dll
 --reference:C:\Users\mirko\.nuget\packages\System.Reflection.DispatchProxy\4.0.1\ref\netstandard1.3\System.Reflection.DispatchProxy.dll
+--reference:C:\Users\mirko\.nuget\packages\System.Reflection.Emit.ILGeneration\4.0.1\ref\netstandard1.0\System.Reflection.Emit.ILGeneration.dll
+--reference:C:\Users\mirko\.nuget\packages\System.Reflection.Emit.Lightweight\4.0.1\ref\netstandard1.0\System.Reflection.Emit.Lightweight.dll
 --reference:C:\Users\mirko\.nuget\packages\System.Reflection.Extensions\4.0.1\ref\netstandard1.0\System.Reflection.Extensions.dll
 --reference:C:\Users\mirko\.nuget\packages\System.Reflection.Metadata\1.3.0\lib\netstandard1.1\System.Reflection.Metadata.dll
 --reference:C:\Users\mirko\.nuget\packages\System.Reflection.Primitives\4.0.1\ref\netstandard1.0\System.Reflection.Primitives.dll
@@ -185,6 +194,7 @@
 --reference:C:\Users\mirko\.nuget\packages\System.Security.Cryptography.X509Certificates\4.1.0\ref\netstandard1.4\System.Security.Cryptography.X509Certificates.dll
 --reference:C:\Users\mirko\.nuget\packages\System.Security.Principal\4.0.1\ref\netstandard1.0\System.Security.Principal.dll
 --reference:C:\Users\mirko\.nuget\packages\System.Security.Principal.Windows\4.0.0\ref\netstandard1.3\System.Security.Principal.Windows.dll
+--reference:C:\Users\mirko\.nuget\packages\System.Security.SecureString\4.0.0\ref\netstandard1.3\System.Security.SecureString.dll
 --reference:C:\Users\mirko\.nuget\packages\System.Text.Encoding\4.0.11\ref\netstandard1.3\System.Text.Encoding.dll
 --reference:C:\Users\mirko\.nuget\packages\System.Text.Encoding.Extensions\4.0.11\ref\netstandard1.3\System.Text.Encoding.Extensions.dll
 --reference:C:\Users\mirko\.nuget\packages\System.Text.Encodings.Web\4.0.0\lib\netstandard1.0\System.Text.Encodings.Web.dll
@@ -206,3 +216,10 @@
 E:\heroku\randobot\src\RandoBot.Service\Program.cs
 E:\heroku\randobot\src\RandoBot.Service\Startup.cs
 E:\heroku\randobot\src\RandoBot.Service\Controllers\FecebookController.cs
+E:\heroku\randobot\src\RandoBot.Service\Models\Picture.cs
+E:\heroku\randobot\src\RandoBot.Service\Models\User.cs
+E:\heroku\randobot\src\RandoBot.Service\Repositories\IPictureRepository.cs
+E:\heroku\randobot\src\RandoBot.Service\Repositories\IUserRepository.cs
+E:\heroku\randobot\src\RandoBot.Service\Repositories\MongoRepository.cs
+E:\heroku\randobot\src\RandoBot.Service\Repositories\PictureRepository.cs
+E:\heroku\randobot\src\RandoBot.Service\Repositories\UserRepository.cs

@@ -6,6 +6,9 @@ using Messenger.Client.Objects;
 using Messenger.Client.Services;
 using Messenger.Client.Services.Impl;
 using Messenger.Client.Utilities;
+using RandoBot.Service.Repositories;
+using RandoBot.Service.Models;
+using Microsoft.Extensions.Logging;
 
 namespace PriceTagCloud.Service.Controllers
 {
@@ -19,13 +22,25 @@ namespace PriceTagCloud.Service.Controllers
 
         private readonly string verifyToken;
 
+        private readonly IUserRepository userRepository;
+
+        private readonly IPictureRepository pictureRepository;
+
+        private readonly ILogger<FacebookController> logger;
+
         /// <summary>
         /// Initializes a new instance of the FacebookController class.
         /// </summary>
-        /// <param name="messageSender"></param>
-        public FacebookController(IMessengerMessageSender messageSender)
+        /// <param name="logger">The logger.</param>
+        /// <param name="messageSender">The message sender.</param>
+        /// <param name="userRepository">The user repository.</param>
+        /// <param name="pictureRepository">The picture repository.</param>
+        public FacebookController(ILogger<FacebookController> logger, IMessengerMessageSender messageSender, IUserRepository userRepository, IPictureRepository pictureRepository)
         {
+            this.logger = logger;
             this.messageSender = messageSender;
+            this.userRepository = userRepository;
+            this.pictureRepository = pictureRepository;
             this.verifyToken = Environment.GetEnvironmentVariable("VERIFY_TOKEN");
         }
 
@@ -68,41 +83,51 @@ namespace PriceTagCloud.Service.Controllers
         {
             var response = new MessengerMessage();
 
-            var profileResponse = await new MessengerProfileProvider(new JsonMessengerSerializer()).GetUserProfileAsync(messaging.Sender.Id);
-            var value = new
+            try
             {
-                FirstName = profileResponse.Result.FirstName,
-                LastName = profileResponse.Result.LastName,
-                Email = profileResponse.Result.Email
-            };
+                var user = await this.userRepository.GetUserAsync(messaging.Sender.Id);
+                if (user == null)
+                {
+                    var profileResponse = await new MessengerProfileProvider(new JsonMessengerSerializer()).GetUserProfileAsync(messaging.Sender.Id);
+                    user = new User
+                    {
+                        Email = profileResponse.Result.Email,
+                        FirstName = profileResponse.Result.FirstName,
+                        LastName = profileResponse.Result.LastName,
+                        UserId = messaging.Sender.Id
+                    };
 
-            response.Text = $"Hi {value.FirstName}";
-            await messageSender.SendAsync(response, messaging.Sender);
+                    user = await this.userRepository.InsertUserAsync(user);
 
-            response.Text = $"Send a picture to an internet stranger";
-            await messageSender.SendAsync(response, messaging.Sender);
+                    response.Text = $"Hi {user.FirstName}";
+                    await this.messageSender.SendAsync(response, messaging.Sender);
 
-            //var attachement = messaging.Message.Attachments?.FirstOrDefault();
-            //if (attachement?.Type != "image")
-            //{
-            //    response.Text = "Send me a picture to start a new search";
-            //}
-            //else
-            //{                 
+                    response.Text = $"let's exchange some pictures! Send me yours first :)";
+                    await this.messageSender.SendAsync(response, messaging.Sender);
+                }
 
-            //    var value = new
-            //    {
-            //        Id = Guid.NewGuid(),
-            //        SendrId = messaging.Sender.Id,
-            //        PayloadUrl = attachement.Payload.Url,
-            //        Timestamp = messaging.Timestamp
-            //    };
+                var attachement = messaging.Message.Attachments?.FirstOrDefault();
+                if (attachement?.Type != "image")
+                {
+                    response.Text = "Didn't get that, I'm a bit silly ATM, just send me a picture, por favour! :)";
+                }
+                else
+                {
+                    await this.pictureRepository.CreatePictureAsync(messaging.Sender.Id, attachement.Payload.Url);
 
-            //    sub.Publish("search", JsonConvert.SerializeObject(value));
-            //    response.Text = $"Search in progress {value.Id}";
-            //}
+                    var randomPicture = await this.pictureRepository.GetRandomPictureAsync();
 
-            //await messageSender.SendAsync(response, messaging.Sender);
+                    response.Text = randomPicture;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.Text = "Oh boy, something went wrong :(";
+                this.logger.LogError("Exception: {0}", ex.ToString());
+            }
+
+            await this.messageSender.SendAsync(response, messaging.Sender);
         }
     }
 }

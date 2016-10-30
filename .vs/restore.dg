@@ -1,4 +1,4 @@
-#:E:\heroku\randobot\RandoBot.Service\RandoBot.Service.xproj
-E:\heroku\randobot\RandoBot.Service\RandoBot.Service.xproj|E:\heroku\randobot\Messenger.Client\Messenger.Client.xproj
-E:\heroku\randobot\RandoBot.Service\RandoBot.Service.xproj|E:\heroku\randobot\Messenger.Client.Extensions\Messenger.Client.Extensions.xproj
-E:\heroku\randobot\Messenger.Client.Extensions\Messenger.Client.Extensions.xproj|E:\heroku\randobot\Messenger.Client\Messenger.Client.xproj
+#:E:\heroku\randobot\src\RandoBot.Service\RandoBot.Service.xproj
+E:\heroku\randobot\src\RandoBot.Service\RandoBot.Service.xproj|E:\heroku\randobot\src\Messenger.Client\Messenger.Client.xproj
+E:\heroku\randobot\src\RandoBot.Service\RandoBot.Service.xproj|E:\heroku\randobot\src\Messenger.Client.Extensions\Messenger.Client.Extensions.xproj
+E:\heroku\randobot\src\Messenger.Client.Extensions\Messenger.Client.Extensions.xproj|E:\heroku\randobot\src\Messenger.Client\Messenger.Client.xproj
