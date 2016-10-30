@@ -1,0 +1,21 @@
+{
+  "name": "RandoBot.Service",
+  "description": "RandoBot Service",
+  "logo": "",
+  "keywords": ["heroku", "asp.net-core"],
+  "env": {
+    "PUBLISH_APP_DIR": {
+      "description": "The relative path to main published project",
+      "value" : "/src/RandoBot.Service"
+    },
+    "LAUNCH_ASSEMBLY_NAME": {
+      "description": "The assembly name, that will be used to run app using Kestrel",
+      "value": "RandoBot.Service.dll"
+    }
+  },
+  "buildpacks": [
+    {
+      "url": "https://github.com/ORuban/aspnetcore-buildpack.git"
+    }
+  ]
+}
