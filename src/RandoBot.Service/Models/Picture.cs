@@ -2,6 +2,9 @@
 
 namespace RandoBot.Service.Models
 {
+    /// <summary>
+    /// The picture class.
+    /// </summary>
     public class Picture
     {
         /// <summary>

@@ -1,7 +1,7 @@
 {
   "runtimeOptions": {
     "additionalProbingPaths": [
-      "C:\\Users\\mirko\\.nuget\\packages"
+      "/Users/MIGA/.nuget/packages"
     ]
   }
 }
