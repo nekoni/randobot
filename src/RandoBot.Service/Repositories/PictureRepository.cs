@@ -39,7 +39,7 @@ namespace RandoBot.Service.Repositories
             var picture = new Picture
             {
                 Created = DateTime.UtcNow,
-                PublicId = $"{Guid.NewGuid().ToString()}{Path.GetExtension(originalUrl)}",
+                PublicId = $"{Guid.NewGuid().ToString()}.jpg",
                 UserId = userId
             };
 
