@@ -121,13 +121,11 @@ namespace PriceTagCloud.Service.Controllers
                         await this.pictureRepository.CreatePictureAsync(messaging.Sender.Id, attachement.Payload.Url);
 
                         var pictureUrl = await this.pictureRepository.GetRandomPictureAsync(user.UserId);
-                        response.Attachments = new List<MessengerAttachment>();
-                        var attachment = new MessengerAttachment();
-                        attachment.Type = "image";
-                        attachement.Payload = new MessengerPayload();
-                        attachement.Payload.Url = pictureUrl + ".jpg";
-                        attachement.Payload.IsReusable = true;
-                        response.Attachments.Add(attachement);
+                        response.Attachment = new MessengerAttachment();
+                        response.Attachment.Type = "image";
+                        response.Attachment.Payload = new MessengerPayload();
+                        response.Attachment.Payload.Url = pictureUrl;
+                        response.Attachment.Payload.IsReusable = true;
                     }
                 }
             }
