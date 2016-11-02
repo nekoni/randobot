@@ -31,11 +31,6 @@ namespace RandoBot.Service.Models
         public string LastName { get; set; }
 
         /// <summary>
-        /// The email.
-        /// </summary>
-        public string Email { get; set; }
-
-        /// <summary>
         /// The created datetime.
         /// </summary>
         public DateTime Created { get; set; }

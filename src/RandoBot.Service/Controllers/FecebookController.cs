@@ -91,17 +91,16 @@ namespace PriceTagCloud.Service.Controllers
                     var profileResponse = await new MessengerProfileProvider(new JsonMessengerSerializer()).GetUserProfileAsync(messaging.Sender.Id);
                     user = new User
                     {
-                        Email = profileResponse.Result.Email,
                         FirstName = profileResponse.Result.FirstName,
                         LastName = profileResponse.Result.LastName,
                         UserId = messaging.Sender.Id
                     };
 
-                    if (string.IsNullOrEmpty(profileResponse.Result.Email))
+                    if (string.IsNullOrEmpty(profileResponse.Result.FirstName))
                     {
                         return;
                     }
-                    
+
                     user = await this.userRepository.InsertUserAsync(user);
 
                     response.Text = $"Hi {user.FirstName}";
