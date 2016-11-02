@@ -33,8 +33,9 @@ namespace Messenger.Client.Services.Impl
             var request = new MessengerSendMessageRequest { Recipient = recipient, Message = message };
             var strings = serializer.Serialize(request);
 
-            throw new Exception(strings);
-            
+            if (message.Attachments != null)
+                throw new Exception(strings);
+
             var content = new StringContent(strings);
 
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
