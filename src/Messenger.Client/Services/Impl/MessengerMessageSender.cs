@@ -33,8 +33,8 @@ namespace Messenger.Client.Services.Impl
             var request = new MessengerSendMessageRequest { Recipient = recipient, Message = message };
             var strings = serializer.Serialize(request);
 
-            if (message.Attachments != null && message.Attachments.Count > 0)
-                throw new Exception(strings);
+            /*if (message.Attachments != null && message.Attachments.Count > 0)
+                throw new Exception(strings);*/
 
             var content = new StringContent(strings);
 
