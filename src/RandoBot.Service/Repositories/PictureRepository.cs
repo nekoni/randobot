@@ -49,7 +49,8 @@ namespace RandoBot.Service.Repositories
 
             var timestamp = DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
 
-            var stringToSign = $"public_id={picture.PublicId}&timestamp={timestamp}";
+            var stringToSign = $"public_id={picture.PublicId}&timestamp={timestamp}{this.apiKey}";
+
             var bytes = new byte[stringToSign.Length * sizeof(char)];
             Buffer.BlockCopy(stringToSign.ToCharArray(), 0, bytes, 0, bytes.Length);
             var sha1 = System.Security.Cryptography.SHA1.Create();
