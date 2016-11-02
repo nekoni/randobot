@@ -119,7 +119,7 @@ namespace PriceTagCloud.Service.Controllers
                     {
                         await this.pictureRepository.CreatePictureAsync(messaging.Sender.Id, attachement.Payload.Url);
 
-                        var randomPicture = await this.pictureRepository.GetRandomPictureAsync();
+                        var randomPicture = await this.pictureRepository.GetRandomPictureAsync(user.UserId);
 
                         response.Text = randomPicture;
                     }

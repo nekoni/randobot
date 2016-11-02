@@ -10,8 +10,9 @@ namespace RandoBot.Service.Repositories
         /// <summary>
         /// Gets a random picture URL.
         /// </summary>
+        /// <param name="userId">The user identifier.</param>
         /// <returns>The URL of the picture.</returns>
-        Task<string> GetRandomPictureAsync();
+        Task<string> GetRandomPictureAsync(string userId);
 
         /// <summary>
         /// Creates a picture based on the original URL..

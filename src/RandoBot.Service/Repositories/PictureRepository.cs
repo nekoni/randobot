@@ -56,7 +56,7 @@ namespace RandoBot.Service.Repositories
             var picture = new Picture
             {
                 Created = DateTime.UtcNow,
-                PublicId = $"{Guid.NewGuid().ToString()}.jpg",
+                PublicId = $"{Guid.NewGuid().ToString()}",
                 UserId = userId
             };
 
@@ -91,8 +91,9 @@ namespace RandoBot.Service.Repositories
         /// <summary>
         /// Gets a random picture.
         /// </summary>
-        /// <returns>The picture URL.</returns>
-        public async Task<string> GetRandomPictureAsync()
+       /// <param name="userId">The user identifier.</param>
+        /// <returns>The URL of the picture.</returns>
+        public async Task<string> GetRandomPictureAsync(string userId)
         {
             var count = (int)await this.Db.GetCollection<Picture>("Pictures").CountAsync(Builders<Picture>.Filter.Empty);
             var randomNumber = new Random().Next(0, count - 1);
