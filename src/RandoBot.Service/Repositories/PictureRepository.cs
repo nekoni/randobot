@@ -26,7 +26,16 @@ namespace RandoBot.Service.Repositories
         public PictureRepository() : base()
         {
             this.cloudName = Environment.GetEnvironmentVariable("CLOUDINARY_NAME");
+            if (this.cloudName == null) 
+            {
+                throw new Exception("Cannot find CLOUDINARY_NAME in this env.");
+            }
+
             this.apiKey = Environment.GetEnvironmentVariable("CLOUDINARY_API_KEY");
+            if (this.apiKey == null) 
+            {
+                throw new Exception("Cannot find CLOUDINARY_API_KEY in this env.");
+            }
         }
 
         /// <summary>

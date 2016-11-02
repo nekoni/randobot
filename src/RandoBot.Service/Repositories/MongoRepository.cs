@@ -24,8 +24,17 @@ namespace RandoBot.Service.Repositories
         public MongoRepository()
         {
             var connectionString = Environment.GetEnvironmentVariable("MONGODB_URI");
-            var databaseName = Environment.GetEnvironmentVariable("MONGODB_NAME");
+            if (connectionString == null) 
+            {
+                throw new Exception("Cannot find MONGODB_URI in this env.");
+            }
 
+            var databaseName = Environment.GetEnvironmentVariable("MONGODB_NAME");            
+            if (databaseName == null) 
+            {
+                throw new Exception("Cannot find MONGODB_NAME in this env.");
+            }
+            
             this.Client = new MongoClient(connectionString);
             this.Db = this.Client.GetDatabase(databaseName);
         }
