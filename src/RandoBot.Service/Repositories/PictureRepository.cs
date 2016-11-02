@@ -94,11 +94,12 @@ namespace RandoBot.Service.Repositories
         /// <returns>The picture URL.</returns>
         public async Task<string> GetRandomPictureAsync()
         {
-            FilterDefinition<BsonDocument> filter = "{ $sample: { size: 1 } }";
-            var documents = await this.Db.GetCollection<BsonDocument>("Pictures").FindAsync<BsonDocument>(filter);
-            var document = await documents.FirstOrDefaultAsync();
+            var count = (int)await this.Db.GetCollection<Picture>("Pictures").CountAsync(Builders<Picture>.Filter.Empty);
+            var randomNumber = new Random().Next(0, count - 1);
+            var options = new FindOptions<Picture> { Skip = randomNumber };
+            var pictures = await this.Db.GetCollection<Picture>("Pictures").FindAsync(Builders<Picture>.Filter.Empty, options);
+            var picture = await pictures.FirstOrDefaultAsync();
 
-            var picture = BsonSerializer.Deserialize<Picture>(document);
             return $"http://res.cloudinary.com/{this.cloudName}/image/upload/{picture.PublicId}";
         }
     }
