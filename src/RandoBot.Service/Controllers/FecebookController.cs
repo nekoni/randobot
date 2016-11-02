@@ -9,6 +9,7 @@ using Messenger.Client.Utilities;
 using RandoBot.Service.Repositories;
 using RandoBot.Service.Models;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 
 namespace PriceTagCloud.Service.Controllers
 {
@@ -119,9 +120,11 @@ namespace PriceTagCloud.Service.Controllers
                     {
                         await this.pictureRepository.CreatePictureAsync(messaging.Sender.Id, attachement.Payload.Url);
 
-                        var randomPicture = await this.pictureRepository.GetRandomPictureAsync(user.UserId);
-
-                        response.Text = randomPicture;
+                        var pictureUrl = await this.pictureRepository.GetRandomPictureAsync(user.UserId);
+                        response.Attachments = new List<MessengerAttachment>();
+                        var attachment = new MessengerAttachment();
+                        attachement.Payload.Url = pictureUrl;
+                        response.Attachments.Add(attachement);
                     }
                 }
             }
