@@ -20,6 +20,8 @@ namespace RandoBot.Service.Repositories
 
         private string apiKey;
 
+        private string apiSecret;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="PictureRepository"/> class.
         /// </summary>
@@ -35,6 +37,12 @@ namespace RandoBot.Service.Repositories
             if (this.apiKey == null) 
             {
                 throw new Exception("Cannot find CLOUDINARY_API_KEY in this env.");
+            }
+
+            this.apiSecret = Environment.GetEnvironmentVariable("CLOUDINARY_API_SECRET");
+            if (this.apiSecret == null) 
+            {
+                throw new Exception("Cannot find CLOUDINARY_API_SECRET in this env.");
             }
         }
 
@@ -58,7 +66,7 @@ namespace RandoBot.Service.Repositories
 
             var timestamp = (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
 
-            var stringToSign = $"public_id={picture.PublicId}&timestamp={timestamp}";
+            var stringToSign = $"public_id={picture.PublicId}&timestamp={timestamp}{this.apiSecret}";
             var signature = SHA1Util.SHA1HashStringForUTF8String(stringToSign);
 
             var content = new FormUrlEncodedContent(new[]
