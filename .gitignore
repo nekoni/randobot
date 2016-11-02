@@ -1,2 +1,4 @@
-src/*/obj/
-src/*/bin/
+obj/
+bin/
+*.xproj.user
+
