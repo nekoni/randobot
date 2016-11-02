@@ -47,7 +47,7 @@ namespace RandoBot.Service.Repositories
 
             var url = $"https://api.cloudinary.com/v1_1/{this.cloudName}/image/upload";
 
-            var timestamp = DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+            var timestamp = (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
 
             var stringToSign = $"public_id={picture.PublicId}&timestamp={timestamp}{this.apiKey}";
 
