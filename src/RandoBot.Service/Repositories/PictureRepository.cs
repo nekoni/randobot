@@ -96,7 +96,7 @@ namespace RandoBot.Service.Repositories
         {
             var count = (int)await this.Db.GetCollection<Picture>("Pictures").CountAsync(Builders<Picture>.Filter.Empty);
             var randomNumber = new Random().Next(0, count - 1);
-            var options = new FindOptions<Picture> { Skip = randomNumber };
+            var options = new FindOptions<Picture> { Skip = randomNumber, Limit = 1 };
             var pictures = await this.Db.GetCollection<Picture>("Pictures").FindAsync(Builders<Picture>.Filter.Empty, options);
             var picture = await pictures.FirstOrDefaultAsync();
 
