@@ -97,6 +97,11 @@ namespace PriceTagCloud.Service.Controllers
                         UserId = messaging.Sender.Id
                     };
 
+                    if (string.IsNullOrEmpty(profileResponse.Result.Email))
+                    {
+                        return;
+                    }
+                    
                     user = await this.userRepository.InsertUserAsync(user);
 
                     response.Text = $"Hi {user.FirstName}";
