@@ -105,21 +105,22 @@ namespace PriceTagCloud.Service.Controllers
                     response.Text = $"let's exchange some pictures! Send me yours first :)";
                     await this.messageSender.SendAsync(response, messaging.Sender);
                 }
-
-                var attachement = messaging.Message.Attachments?.FirstOrDefault();
-                if (attachement?.Type != "image")
-                {
-                    response.Text = "Didn't get that, I'm a bit silly ATM, just send me a picture, por favour! :)";
-                }
                 else
                 {
-                    await this.pictureRepository.CreatePictureAsync(messaging.Sender.Id, attachement.Payload.Url);
+                    var attachement = messaging.Message.Attachments?.FirstOrDefault();
+                    if (attachement?.Type != "image")
+                    {
+                        response.Text = "Didn't get that, I'm a bit silly ATM, just send me a picture, por favour! :)";
+                    }
+                    else
+                    {
+                        await this.pictureRepository.CreatePictureAsync(messaging.Sender.Id, attachement.Payload.Url);
 
-                    var randomPicture = await this.pictureRepository.GetRandomPictureAsync();
+                        var randomPicture = await this.pictureRepository.GetRandomPictureAsync();
 
-                    response.Text = randomPicture;
+                        response.Text = randomPicture;
+                    }
                 }
-
             }
             catch (Exception ex)
             {
