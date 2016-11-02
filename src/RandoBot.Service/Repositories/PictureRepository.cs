@@ -59,11 +59,7 @@ namespace RandoBot.Service.Repositories
             var timestamp = (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
 
             var stringToSign = $"public_id={picture.PublicId}&timestamp={timestamp}{this.apiKey}";
-
-            var bytes = new byte[stringToSign.Length * sizeof(char)];
-            Buffer.BlockCopy(stringToSign.ToCharArray(), 0, bytes, 0, bytes.Length);
-            var sha1 = System.Security.Cryptography.SHA1.Create();
-            var signature = HexStringFromBytes(sha1.ComputeHash(bytes));
+            var signature = SHA1Util.SHA1HashStringForUTF8String(stringToSign);
 
             var content = new FormUrlEncodedContent(new[]
             {
@@ -96,17 +92,6 @@ namespace RandoBot.Service.Repositories
 
             var picture = BsonSerializer.Deserialize<Picture>(document);
             return $"http://res.cloudinary.com/{this.cloudName}/image/upload/{picture.PublicId}";
-        }
-
-        private static string HexStringFromBytes(byte[] bytes)
-        {
-            var sb = new StringBuilder();
-            foreach (byte b in bytes)
-            {
-                var hex = b.ToString("x2");
-                sb.Append(hex);
-            }
-            return sb.ToString();
         }
     }
 }
