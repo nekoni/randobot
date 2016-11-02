@@ -107,7 +107,6 @@ namespace PriceTagCloud.Service.Controllers
                     await this.messageSender.SendAsync(response, messaging.Sender);
 
                     response.Text = $"let's exchange some pictures! Send me yours first :)";
-                    await this.messageSender.SendAsync(response, messaging.Sender);
                 }
                 else
                 {
