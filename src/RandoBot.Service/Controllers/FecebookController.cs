@@ -114,7 +114,14 @@ namespace PriceTagCloud.Service.Controllers
                     var attachement = messaging.Message.Attachments?.FirstOrDefault();
                     if (attachement?.Type != "image")
                     {
-                        response.Text = "Didn't get that, I'm a bit silly ATM, just send me a picture, por favour! :)";
+                        if (messaging.Message.Text == "help")
+                        {
+                            response.Text = "send me a nice picture :)";
+                        }
+                        else
+                        {
+                            response.Text = "Didn't get that, I'm a bit silly ATM, just send me a picture, por favour! :)";
+                        }
                     }
                     else
                     {
