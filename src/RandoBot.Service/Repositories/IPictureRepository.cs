@@ -2,6 +2,9 @@
 
 namespace RandoBot.Service.Repositories
 {
+    /// <summary>
+    /// The picture repository interface.
+    /// </summary>
     public interface IPictureRepository
     {
         /// <summary>

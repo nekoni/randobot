@@ -1,4 +1,6 @@
 ﻿using System;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace RandoBot.Service.Models
 {
@@ -7,6 +9,12 @@ namespace RandoBot.Service.Models
     /// </summary>
     public class User
     {
+        /// <summary>
+        /// The object identifier.
+        /// </summary>
+        [BsonId]
+        public ObjectId Id { get; set; }
+
         /// <summary>
         /// The user identifier.
         /// </summary>
