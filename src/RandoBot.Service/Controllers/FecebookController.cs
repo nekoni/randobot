@@ -123,6 +123,7 @@ namespace PriceTagCloud.Service.Controllers
                         var pictureUrl = await this.pictureRepository.GetRandomPictureAsync(user.UserId);
                         response.Attachments = new List<MessengerAttachment>();
                         var attachment = new MessengerAttachment();
+                        attachement.Payload = new MessengerPayload();
                         attachement.Payload.Url = pictureUrl;
                         response.Attachments.Add(attachement);
                     }
