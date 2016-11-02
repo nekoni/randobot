@@ -31,8 +31,12 @@ namespace Messenger.Client.Services.Impl
         {
             var url = String.Format(UrlTemplate, accessToken);
             var request = new MessengerSendMessageRequest { Recipient = recipient, Message = message };
+            var strings = serializer.Serialize(request);
 
-            var content = new StringContent(serializer.Serialize(request));
+            throw new Exception(strings);
+            
+            var content = new StringContent(strings);
+
             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             try
             {
