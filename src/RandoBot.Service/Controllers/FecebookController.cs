@@ -125,7 +125,6 @@ namespace PriceTagCloud.Service.Controllers
                         response.Attachment.Type = "image";
                         response.Attachment.Payload = new MessengerPayload();
                         response.Attachment.Payload.Url = pictureUrl;
-                        response.Attachment.Payload.IsReusable = true;
                     }
                 }
             }

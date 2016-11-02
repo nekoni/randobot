@@ -41,8 +41,5 @@ namespace Messenger.Client.Objects
         public String OrderUrl { get; set; }
 
         public String Timestamp { get; set; }
-
-        [JsonProperty("is_reusable")]
-        public bool IsReusable { get; set; }
     }
 }
