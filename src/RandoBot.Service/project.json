@@ -62,6 +62,8 @@
   "publishOptions": {
     "include": [
       "wwwroot",
+      "Views",
+      "Areas/**/Views",
       "appsettings.json",
       "web.config"
     ]
@@ -69,6 +71,7 @@
 
   "scripts": {
     "precompile": [ "dotnet bundle" ],
+    "prepublish": [ "which bower && bower cache clean && bower install" ],
     "postpublish": [ "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%" ]
   },
 
