@@ -88,39 +88,38 @@ namespace RandoBot.Service.Controllers
                 if (messaging.Message.Text == "help")
                 {
                     response.Text = "send me a nice picture :)";
-                    await this.messageSender.SendAsync(response, messaging.Sender);
-
-                    return;
                 }
-
-                var user = await this.GetUserAsync(messaging, async profile => 
-                { 
-                    response.Text = $"Hi {profile.FirstName}";
-                    await this.messageSender.SendAsync(response, messaging.Sender);
-
-                    if (profile.Gender == "female")
-                    {
-                        response.Text = $"finally a girl ☺, boys pictures are so boring :/";
-                        await this.messageSender.SendAsync(response, messaging.Sender);
-                    }
-                });
-
-                if (user != null)
+                else
                 {
-                    var attachement = messaging.Message.Attachments?.FirstOrDefault();
-                    if (attachement?.Type != "image")
-                    {
-                        response.Text = $"let's exchange some pictures! Send me yours first :)";
-                    }
-                    else
-                    {
-                        await this.pictureRepository.InsertAsync(messaging.Sender.Id, attachement.Payload.Url);
+                    var user = await this.GetUserAsync(messaging, async profile => 
+                    { 
+                        response.Text = $"Hi {profile.FirstName}";
+                        await this.messageSender.SendAsync(response, messaging.Sender);
 
-                        var pictureUrl = await this.pictureRepository.GetRandomAsync(user.UserId);
-                        response.Attachment = new MessengerAttachment();
-                        response.Attachment.Type = "image";
-                        response.Attachment.Payload = new MessengerPayload();
-                        response.Attachment.Payload.Url = pictureUrl;
+                        if (profile.Gender == "female")
+                        {
+                            response.Text = $"finally a girl ☺, boys pictures are so boring :/";
+                            await this.messageSender.SendAsync(response, messaging.Sender);
+                        }
+                    });
+
+                    if (user != null)
+                    {
+                        var attachement = messaging.Message.Attachments?.FirstOrDefault();
+                        if (attachement?.Type != "image")
+                        {
+                            response.Text = $"let's exchange some pictures! Send me yours first :)";
+                        }
+                        else
+                        {
+                            await this.pictureRepository.InsertAsync(messaging.Sender.Id, attachement.Payload.Url);
+
+                            var pictureUrl = await this.pictureRepository.GetRandomAsync(user.UserId);
+                            response.Attachment = new MessengerAttachment();
+                            response.Attachment.Type = "image";
+                            response.Attachment.Payload = new MessengerPayload();
+                            response.Attachment.Payload.Url = pictureUrl;
+                        }
                     }
                 }
             }
