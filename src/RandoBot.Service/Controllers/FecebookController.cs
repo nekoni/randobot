@@ -85,6 +85,14 @@ namespace RandoBot.Service.Controllers
 
             try
             {
+                if (messaging.Message.Text == "help")
+                {
+                    response.Text = "send me a nice picture :)";
+                    await this.messageSender.SendAsync(response, messaging.Sender);
+
+                    return;
+                }
+
                 var user = await this.GetUserAsync(messaging, async profile => 
                 { 
                     response.Text = $"Hi {profile.FirstName}";
@@ -102,14 +110,7 @@ namespace RandoBot.Service.Controllers
                     var attachement = messaging.Message.Attachments?.FirstOrDefault();
                     if (attachement?.Type != "image")
                     {
-                        if (messaging.Message.Text == "help")
-                        {
-                            response.Text = "send me a nice picture :)";
-                        }
-                        else
-                        {
-                            response.Text = $"let's exchange some pictures! Send me yours first :)";
-                        }
+                        response.Text = $"let's exchange some pictures! Send me yours first :)";
                     }
                     else
                     {
