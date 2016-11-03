@@ -58,7 +58,8 @@ namespace RandoBot.Service.Repositories
             {
                 Created = DateTime.UtcNow,
                 PublicId = $"{Guid.NewGuid().ToString()}",
-                UserId = userId
+                UserId = userId,
+                Delete = DateTime.MaxValue
             };
 
             await this.collection.InsertOneAsync(picture);
@@ -102,14 +103,18 @@ namespace RandoBot.Service.Repositories
             var randomNumber = new Random().Next(0, count - 1);
             var options = new FindOptions<Picture> { Skip = randomNumber, Limit = 1 };
             var pictures = await this.collection
-                .FindAsync(
-                    Builders<Picture>.Filter.And(
-                        Builders<Picture>.Filter.Ne(p => p.UserId, userId),
-                        Builders<Picture>.Filter.Ne("Delete", BsonNull.Value)), 
-                    options);
+                .FindAsync(Builders<Picture>.Filter.Ne(p => p.UserId, userId), options);
             
-            var picture = await pictures.FirstOrDefaultAsync();
-            
+            Picture picture = null;
+            foreach (var p in await pictures.ToListAsync())
+            {
+                if (p.Delete == DateTime.MaxValue)
+                {
+                    picture = p;
+                    break;
+                }
+            }
+
             var publicId = "sample";
             
             if (picture != null) 
