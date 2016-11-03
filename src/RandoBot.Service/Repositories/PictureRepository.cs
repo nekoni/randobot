@@ -99,7 +99,6 @@ namespace RandoBot.Service.Repositories
         /// <returns>The URL of the picture.</returns>
         public async Task<string> GetRandomAsync(string userId)
         {
-            userId = "test";
             var count = (int)await this.collection.CountAsync(Builders<Picture>.Filter.Empty);
             var randomNumber = new Random().Next(0, count - 1);
             var options = new FindOptions<Picture> { Skip = randomNumber, Limit = 1 };
@@ -135,7 +134,7 @@ namespace RandoBot.Service.Repositories
         /// </summary>
         public async Task DeleteAsync()
         {
-            var threshold = DateTime.UtcNow.AddMinutes(-1);
+            var threshold = DateTime.UtcNow.AddMinutes(-30);
             var filter = Builders<Picture>.Filter.Empty;
 
             var picturesToDelete = await this.collection.FindAsync(filter);
