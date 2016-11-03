@@ -12,7 +12,6 @@ namespace RandoBot.Service.Models
         /// </summary>
         public string PublicId { get; set; }
 
-
         /// <summary>
         /// Marks this record to be deleted.
         /// </summary>

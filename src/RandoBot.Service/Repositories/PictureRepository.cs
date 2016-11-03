@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using RandoBot.Service.Models;
 
@@ -57,8 +58,7 @@ namespace RandoBot.Service.Repositories
             {
                 Created = DateTime.UtcNow,
                 PublicId = $"{Guid.NewGuid().ToString()}",
-                UserId = userId,
-                Delete = DateTime.MaxValue
+                UserId = userId
             };
 
             await this.collection.InsertOneAsync(picture);
@@ -105,7 +105,7 @@ namespace RandoBot.Service.Repositories
                 .FindAsync(
                     Builders<Picture>.Filter.And(
                         Builders<Picture>.Filter.Ne(p => p.UserId, userId),
-                        Builders<Picture>.Filter.Ne(p => p.Delete, DateTime.MaxValue)), 
+                        Builders<Picture>.Filter.Ne("Delete", BsonNull.Value)), 
                     options);
             
             var picture = await pictures.FirstOrDefaultAsync();
