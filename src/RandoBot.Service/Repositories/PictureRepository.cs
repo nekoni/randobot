@@ -135,7 +135,7 @@ namespace RandoBot.Service.Repositories
         /// </summary>
         public async Task DeleteAsync()
         {
-            var threshold = DateTime.UtcNow.AddHours(-1);
+            var threshold = DateTime.UtcNow.AddMinutes(-1);
             var filter = Builders<Picture>.Filter.Empty;
 
             var picturesToDelete = await this.collection.FindAsync(filter);
