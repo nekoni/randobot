@@ -12,13 +12,18 @@ namespace RandoBot.Service.Repositories
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <returns>The URL of the picture.</returns>
-        Task<string> GetRandomPictureAsync(string userId);
+        Task<string> GetRandomAsync(string userId);
 
         /// <summary>
-        /// Creates a picture based on the original URL..
+        /// Inserts a picture based on the original URL.
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <param name="originalUrl">The original URL.</param>
-        Task CreatePictureAsync(string userId, string originalUrl);
+        Task InsertAsync(string userId, string originalUrl);
+        
+        /// <summary>
+        /// Deletes the dispatched pictures.
+        /// </summary>
+        Task DeleteAsync();
     }
 }

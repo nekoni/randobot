@@ -7,32 +7,16 @@ namespace RandoBot.Service.Models
     /// <summary>
     /// The user class.
     /// </summary>
-    public class User
+    public class User : Entity
     {
-        /// <summary>
-        /// The object identifier.
-        /// </summary>
-        [BsonId]
-        public ObjectId Id { get; set; }
-
-        /// <summary>
-        /// The user identifier.
-        /// </summary>
-        public string UserId { get; set; }
-
         /// <summary>
         /// The first name.
         /// </summary>
         public string FirstName { get; set; }
 
         /// <summary>
-        /// The last name.
+        /// The last activity date time.
         /// </summary>
-        public string LastName { get; set; }
-
-        /// <summary>
-        /// The created datetime.
-        /// </summary>
-        public DateTime Created { get; set; }
+        public DateTime LastActivity { get; set; }
     }
 }

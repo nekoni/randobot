@@ -2,14 +2,13 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Messenger.Client.Objects;
 using Messenger.Client.Services;
 using Messenger.Client.Services.Impl;
 using Messenger.Client.Utilities;
 using RandoBot.Service.Repositories;
 using RandoBot.Service.Models;
-using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
 
 namespace RandoBot.Service.Controllers
 {
@@ -86,53 +85,39 @@ namespace RandoBot.Service.Controllers
 
             try
             {
-                var user = await this.userRepository.GetUserAsync(messaging.Sender.Id);
-                if (user == null)
-                {
-                    var profileResponse = await new MessengerProfileProvider(new JsonMessengerSerializer()).GetUserProfileAsync(messaging.Sender.Id);
-                    user = new User
-                    {
-                        FirstName = profileResponse.Result.FirstName,
-                        LastName = profileResponse.Result.LastName,
-                        UserId = messaging.Sender.Id
-                    };
-
-                    if (string.IsNullOrEmpty(profileResponse.Result.FirstName))
-                    {
-                        return;
-                    }
-
-                    user = await this.userRepository.InsertUserAsync(user);
-
-                    response.Text = $"Hi {user.FirstName}";
+                var user = await this.GetUserAsync(messaging, async profile => 
+                { 
+                    response.Text = $"Hi {profile.FirstName}";
                     await this.messageSender.SendAsync(response, messaging.Sender);
 
-                    response.Text = $"let's exchange some pictures! Send me yours first :)";
-                }
-                else
-                {
-                    var attachement = messaging.Message.Attachments?.FirstOrDefault();
-                    if (attachement?.Type != "image")
+                    if (profile.Gender == "female")
                     {
-                        if (messaging.Message.Text == "help")
-                        {
-                            response.Text = "send me a nice picture :)";
-                        }
-                        else
-                        {
-                            response.Text = "Didn't get that, I'm a bit silly ATM, just send me a picture, por favour! :)";
-                        }
+                        response.Text = $"finally a girl ☺, boys pictures are so boring :/";
+                        await this.messageSender.SendAsync(response, messaging.Sender);
+                    }
+                });
+
+                var attachement = messaging.Message.Attachments?.FirstOrDefault();
+                if (attachement?.Type != "image")
+                {
+                    if (messaging.Message.Text == "help")
+                    {
+                        response.Text = "send me a nice picture :)";
                     }
                     else
                     {
-                        await this.pictureRepository.CreatePictureAsync(messaging.Sender.Id, attachement.Payload.Url);
-
-                        var pictureUrl = await this.pictureRepository.GetRandomPictureAsync(user.UserId);
-                        response.Attachment = new MessengerAttachment();
-                        response.Attachment.Type = "image";
-                        response.Attachment.Payload = new MessengerPayload();
-                        response.Attachment.Payload.Url = pictureUrl;
+                        response.Text = $"let's exchange some pictures! Send me yours first :)";
                     }
+                }
+                else
+                {
+                    await this.pictureRepository.InsertAsync(messaging.Sender.Id, attachement.Payload.Url);
+
+                    var pictureUrl = await this.pictureRepository.GetRandomAsync(user.UserId);
+                    response.Attachment = new MessengerAttachment();
+                    response.Attachment.Type = "image";
+                    response.Attachment.Payload = new MessengerPayload();
+                    response.Attachment.Payload.Url = pictureUrl;
                 }
             }
             catch (Exception ex)
@@ -140,8 +125,47 @@ namespace RandoBot.Service.Controllers
                 response.Text = "Oh boy, something went wrong :(";
                 this.logger.LogError("Exception: {0}", ex.ToString());
             }
+            finally
+            {
+                await this.messageSender.SendAsync(response, messaging.Sender);
+            }
 
-            await this.messageSender.SendAsync(response, messaging.Sender);
+            try
+            {
+                await this.pictureRepository.DeleteAsync();
+            }
+            catch(Exception ex)
+            {
+                this.logger.LogError("Exception: {0}", ex.ToString());
+            }
+        }
+
+        private async Task<User> GetUserAsync(MessengerMessaging messaging, Action<MessengerUserProfile> newUserAction) 
+        {
+            var user = await this.userRepository.GetAsync(messaging.Sender.Id);
+            if (user == null)
+            {
+                var profileResponse = await new MessengerProfileProvider(new JsonMessengerSerializer()).GetUserProfileAsync(messaging.Sender.Id);
+                var profile = profileResponse.Result;
+
+                if (!string.IsNullOrEmpty(profile.FirstName))
+                {
+                    user = new User
+                    {
+                        FirstName = profile.FirstName,
+                        UserId = messaging.Sender.Id
+                    };
+
+                    user = await this.userRepository.InsertAsync(user);
+                    newUserAction(profile);
+                }
+            }
+            else
+            {
+                user = await this.userRepository.UpdateAsync(user);
+            }
+
+            return user;
         }
     }
 }
