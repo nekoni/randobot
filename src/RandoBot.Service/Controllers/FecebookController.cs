@@ -11,7 +11,7 @@ using RandoBot.Service.Models;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 
-namespace PriceTagCloud.Service.Controllers
+namespace RandoBot.Service.Controllers
 {
     /// <summary>
     /// The FacebookController class.
