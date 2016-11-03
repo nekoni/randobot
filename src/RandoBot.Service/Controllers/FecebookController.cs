@@ -97,27 +97,30 @@ namespace RandoBot.Service.Controllers
                     }
                 });
 
-                var attachement = messaging.Message.Attachments?.FirstOrDefault();
-                if (attachement?.Type != "image")
+                if (user != null)
                 {
-                    if (messaging.Message.Text == "help")
+                    var attachement = messaging.Message.Attachments?.FirstOrDefault();
+                    if (attachement?.Type != "image")
                     {
-                        response.Text = "send me a nice picture :)";
+                        if (messaging.Message.Text == "help")
+                        {
+                            response.Text = "send me a nice picture :)";
+                        }
+                        else
+                        {
+                            response.Text = $"let's exchange some pictures! Send me yours first :)";
+                        }
                     }
                     else
                     {
-                        response.Text = $"let's exchange some pictures! Send me yours first :)";
-                    }
-                }
-                else
-                {
-                    await this.pictureRepository.InsertAsync(messaging.Sender.Id, attachement.Payload.Url);
+                        await this.pictureRepository.InsertAsync(messaging.Sender.Id, attachement.Payload.Url);
 
-                    var pictureUrl = await this.pictureRepository.GetRandomAsync(user.UserId);
-                    response.Attachment = new MessengerAttachment();
-                    response.Attachment.Type = "image";
-                    response.Attachment.Payload = new MessengerPayload();
-                    response.Attachment.Payload.Url = pictureUrl;
+                        var pictureUrl = await this.pictureRepository.GetRandomAsync(user.UserId);
+                        response.Attachment = new MessengerAttachment();
+                        response.Attachment.Type = "image";
+                        response.Attachment.Payload = new MessengerPayload();
+                        response.Attachment.Payload.Url = pictureUrl;
+                    }
                 }
             }
             catch (Exception ex)
