@@ -99,6 +99,7 @@ namespace RandoBot.Service.Repositories
         /// <returns>The URL of the picture.</returns>
         public async Task<string> GetRandomAsync(string userId)
         {
+            userId = "test";
             var count = (int)await this.collection.CountAsync(Builders<Picture>.Filter.Empty);
             var randomNumber = new Random().Next(0, count - 1);
             var options = new FindOptions<Picture> { Skip = randomNumber, Limit = 1 };
@@ -144,7 +145,7 @@ namespace RandoBot.Service.Repositories
                 {
                     continue;
                 }
-                
+
                 var url = $"https://api.cloudinary.com/v1_1/{this.cloudName}/image/destroy";
 
                 var timestamp = (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
