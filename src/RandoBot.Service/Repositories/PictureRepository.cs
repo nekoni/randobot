@@ -135,11 +135,16 @@ namespace RandoBot.Service.Repositories
         public async Task DeleteAsync()
         {
             var threshold = DateTime.UtcNow.AddHours(-1);
-            var filter = Builders<Picture>.Filter.AnyLt("Delete", threshold);
+            var filter = Builders<Picture>.Filter.Empty;
 
             var picturesToDelete = await this.collection.FindAsync(filter);
             foreach (var pictureToDelete in picturesToDelete.ToList())
             {
+                if (pictureToDelete.Delete > threshold)
+                {
+                    continue;
+                }
+                
                 var url = $"https://api.cloudinary.com/v1_1/{this.cloudName}/image/destroy";
 
                 var timestamp = (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
