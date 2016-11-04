@@ -100,23 +100,24 @@ namespace RandoBot.Service.Repositories
         public async Task<string> GetRandomAsync(string userId)
         {
             var count = (int)await this.collection.CountAsync(Builders<Picture>.Filter.Empty);
-            var randomNumber = new Random().Next(0, count - 1);
-            var options = new FindOptions<Picture> { Skip = randomNumber, Limit = 1 };
-            var pictures = await this.collection
-                .FindAsync(Builders<Picture>.Filter.Ne(p => p.UserId, userId), options);
+            var cursor = await this.collection
+                .FindAsync(Builders<Picture>.Filter.Ne(p => p.UserId, userId));
             
             Picture picture = null;
-            foreach (var p in await pictures.ToListAsync())
+            while (await cursor.MoveNextAsync())
             {
-                if (p.Delete == DateTime.MaxValue)
+                var batch = cursor.Current;
+                foreach (var p in batch)
                 {
-                    picture = p;
-                    break;
+                    if (p.Delete == DateTime.MaxValue)
+                    {
+                        picture = p;
+                        break;
+                    }
                 }
             }
 
             var publicId = "sample";
-            
             if (picture != null) 
             {
                 publicId = picture.PublicId;
