@@ -121,21 +121,24 @@ namespace RandoBot.Service.Controllers
                         user = await this.userRepository.UpdateAsync(user);
                     }
 
-                    var attachement = messaging.Message.Attachments?.FirstOrDefault();
-                    if (attachement?.Type != "image")
+                    if (user != null)
                     {
-                        response.Text = $"let's exchange some pictures! Send me yours first :)";
-                    }
-                    else
-                    {
-                        await this.pictureRepository.InsertAsync(messaging.Sender.Id, attachement.Payload.Url);
+                        var attachement = messaging.Message.Attachments?.FirstOrDefault();
+                        if (attachement?.Type != "image")
+                        {
+                            response.Text = $"let's exchange some pictures! Send me yours first :)";
+                        }
+                        else
+                        {
+                            await this.pictureRepository.InsertAsync(messaging.Sender.Id, attachement.Payload.Url);
 
-                        var pictureUrl = await this.pictureRepository.GetRandomAsync(user.UserId);
-                        response.Attachment = new MessengerAttachment();
-                        response.Attachment.Type = "image";
-                        response.Attachment.Payload = new MessengerPayload();
-                        response.Attachment.Payload.Url = pictureUrl;
-                    }                    
+                            var pictureUrl = await this.pictureRepository.GetRandomAsync(user.UserId);
+                            response.Attachment = new MessengerAttachment();
+                            response.Attachment.Type = "image";
+                            response.Attachment.Payload = new MessengerPayload();
+                            response.Attachment.Payload.Url = pictureUrl;
+                        }   
+                    }                 
                 }
             }
             catch (Exception ex)
