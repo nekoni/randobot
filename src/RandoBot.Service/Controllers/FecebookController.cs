@@ -103,24 +103,21 @@ namespace RandoBot.Service.Controllers
                         }
                     });
 
-                    if (user != null)
+                    var attachement = messaging.Message.Attachments?.FirstOrDefault();
+                    if (attachement?.Type != "image")
                     {
-                        var attachement = messaging.Message.Attachments?.FirstOrDefault();
-                        if (attachement?.Type != "image")
-                        {
-                            response.Text = $"let's exchange some pictures! Send me yours first :)";
-                        }
-                        else
-                        {
-                            await this.pictureRepository.InsertAsync(messaging.Sender.Id, attachement.Payload.Url);
-
-                            var pictureUrl = await this.pictureRepository.GetRandomAsync(user.UserId);
-                            response.Attachment = new MessengerAttachment();
-                            response.Attachment.Type = "image";
-                            response.Attachment.Payload = new MessengerPayload();
-                            response.Attachment.Payload.Url = pictureUrl;
-                        }
+                        response.Text = $"let's exchange some pictures! Send me yours first :)";
                     }
+                    else
+                    {
+                        await this.pictureRepository.InsertAsync(messaging.Sender.Id, attachement.Payload.Url);
+
+                        var pictureUrl = await this.pictureRepository.GetRandomAsync(user.UserId);
+                        response.Attachment = new MessengerAttachment();
+                        response.Attachment.Type = "image";
+                        response.Attachment.Payload = new MessengerPayload();
+                        response.Attachment.Payload.Url = pictureUrl;
+                    }                    
                 }
             }
             catch (Exception ex)
@@ -143,7 +140,7 @@ namespace RandoBot.Service.Controllers
             }
         }
 
-        private async Task<User> GetUserAsync(MessengerMessaging messaging, Action<MessengerUserProfile> newUserAction) 
+        private async Task<User> GetUserAsync(MessengerMessaging messaging, Func<MessengerUserProfile, Task> newUserAction) 
         {
             var user = await this.userRepository.GetAsync(messaging.Sender.Id);
             if (user == null)
@@ -160,7 +157,7 @@ namespace RandoBot.Service.Controllers
                     };
 
                     user = await this.userRepository.InsertAsync(user);
-                    newUserAction(profile);
+                    await newUserAction(profile);
                 }
             }
             else
