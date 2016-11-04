@@ -72,7 +72,7 @@ namespace RandoBot.Service.Controllers
         {
             foreach (var entry in obj.Entries)
             {
-                foreach (var messaging in entry.Messaging.Where(m => m.Message != null))
+                foreach (var messaging in entry.Messaging.Where(m => m.Message != null && m.Sender.Id != null))
                 {
                     await HandleEntry(messaging);
                 }
