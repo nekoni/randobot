@@ -91,17 +91,35 @@ namespace RandoBot.Service.Controllers
                 }
                 else
                 {
-                    var user = await this.GetUserAsync(messaging, async profile => 
-                    { 
-                        response.Text = $"Hi {profile.FirstName}";
-                        await this.messageSender.SendAsync(response, messaging.Sender);
+                    var user = await this.userRepository.GetAsync(messaging.Sender.Id);
+                    if (user == null)
+                    {
+                        var profileResponse = await new MessengerProfileProvider(new JsonMessengerSerializer()).GetUserProfileAsync(messaging.Sender.Id);
+                        var profile = profileResponse.Result;
 
-                        if (profile.Gender == "female")
+                        if (!string.IsNullOrEmpty(profile.FirstName))
                         {
-                            response.Text = $"finally a girl ☺, boys pictures are so boring :/";
+                            user = new User
+                            {
+                                FirstName = profile.FirstName,
+                                UserId = messaging.Sender.Id
+                            };
+
+                            user = await this.userRepository.InsertAsync(user);
+                            response.Text = $"Hi {profile.FirstName}";    
                             await this.messageSender.SendAsync(response, messaging.Sender);
+
+                            if (profile.Gender == "female")
+                            {
+                                response.Text = $"finally a girl ☺, boys pictures are so boring :/";
+                                await this.messageSender.SendAsync(response, messaging.Sender);
+                            }               
                         }
-                    });
+                    }
+                    else
+                    {
+                        user = await this.userRepository.UpdateAsync(user);
+                    }
 
                     var attachement = messaging.Message.Attachments?.FirstOrDefault();
                     if (attachement?.Type != "image")
@@ -138,34 +156,6 @@ namespace RandoBot.Service.Controllers
             {
                 this.logger.LogError("Exception: {0}", ex.ToString());
             }
-        }
-
-        private async Task<User> GetUserAsync(MessengerMessaging messaging, Func<MessengerUserProfile, Task> newUserAction) 
-        {
-            var user = await this.userRepository.GetAsync(messaging.Sender.Id);
-            if (user == null)
-            {
-                var profileResponse = await new MessengerProfileProvider(new JsonMessengerSerializer()).GetUserProfileAsync(messaging.Sender.Id);
-                var profile = profileResponse.Result;
-
-                if (!string.IsNullOrEmpty(profile.FirstName))
-                {
-                    user = new User
-                    {
-                        FirstName = profile.FirstName,
-                        UserId = messaging.Sender.Id
-                    };
-
-                    user = await this.userRepository.InsertAsync(user);
-                    await newUserAction(profile);
-                }
-            }
-            else
-            {
-                user = await this.userRepository.UpdateAsync(user);
-            }
-
-            return user;
         }
     }
 }
