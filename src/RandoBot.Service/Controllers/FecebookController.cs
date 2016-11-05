@@ -87,9 +87,7 @@ namespace RandoBot.Service.Controllers
             {
                 if (messaging.Message.Text == "help")
                 {
-                    await this.messageSender.SendActionAsync(MessengerSenderAction.TypingOn, messaging.Sender);
-                    System.Threading.Thread.Sleep(1000);
-
+                    await this.SimulateTypingAsync(messaging.Sender);
                     response.Text = "send me a nice picture :)";
                 }
                 else
@@ -108,12 +106,14 @@ namespace RandoBot.Service.Controllers
                                 UserId = messaging.Sender.Id
                             };
 
+                            await this.SimulateTypingAsync(messaging.Sender);
                             user = await this.userRepository.InsertAsync(user);
                             response.Text = $"Hi {profile.FirstName}";    
                             await this.messageSender.SendAsync(response, messaging.Sender);
 
                             if (profile.Gender == "female")
                             {
+                                await this.SimulateTypingAsync(messaging.Sender);
                                 response.Text = $"finally a girl ☺, boys pictures are so boring :/";
                                 await this.messageSender.SendAsync(response, messaging.Sender);
                             }               
@@ -129,6 +129,7 @@ namespace RandoBot.Service.Controllers
                         var attachement = messaging.Message.Attachments?.FirstOrDefault();
                         if (attachement?.Type != "image")
                         {
+                            await this.SimulateTypingAsync(messaging.Sender);
                             response.Text = $"let's exchange some pictures! Send me yours first :)";
                         }
                         else
@@ -162,6 +163,12 @@ namespace RandoBot.Service.Controllers
             {
                 this.logger.LogError("Exception: {0}", ex.ToString());
             }
+        }
+
+        private async Task SimulateTypingAsync(MessengerUser sender)
+        {
+            await this.messageSender.SendActionAsync(MessengerSenderAction.TypingOn, sender);
+            System.Threading.Thread.Sleep(2000);
         }
     }
 }
