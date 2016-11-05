@@ -1,4 +1,6 @@
-﻿namespace Messenger.Client.Objects
+﻿using Newtonsoft.Json;
+
+namespace Messenger.Client.Objects
 {
     public class MessengerMessaging
     {

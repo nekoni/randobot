@@ -18,5 +18,8 @@ namespace Messenger.Client.Objects
 
         [JsonProperty("quick_replies")]
         public ICollection<MessengerQuickReply> QuickReplies { get; set; }
+
+        [JsonProperty("sender_action")]
+        public string SenderAction { get; set; }
     }
 }

@@ -87,6 +87,14 @@ namespace RandoBot.Service.Controllers
             {
                 if (messaging.Message.Text == "help")
                 {
+                    response.SenderAction = MessengerSenderAction.TypingOn;
+                    await this.messageSender.SendAsync(response, messaging.Sender);
+
+                    System.Threading.Thread.Sleep(1000);
+
+                    response.SenderAction = MessengerSenderAction.TypingOff;
+                    await this.messageSender.SendAsync(response, messaging.Sender);
+
                     response.Text = "send me a nice picture :)";
                 }
                 else
