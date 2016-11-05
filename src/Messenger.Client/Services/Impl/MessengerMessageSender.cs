@@ -27,6 +27,37 @@ namespace Messenger.Client.Services.Impl
             return SendAsync(message, recipient, MessengerConfig.AccessToken);
         }
 
+        public Task<MessengerResponse> SendActionAsync(string senderAction, MessengerUser recipient)
+        {
+            return SendActionAsync(senderAction, recipient, MessengerConfig.AccessToken);
+        }
+
+        public async Task<MessengerResponse> SendActionAsync(string senderAction, MessengerUser recipient, String accessToken)
+        {
+            var url = String.Format(UrlTemplate, accessToken);
+            var request = new MessengerSendActionRequest { Recipient = recipient, SenderAction = senderAction };
+            var strings = serializer.Serialize(request);
+
+            var content = new StringContent(strings);
+
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            try
+            {
+                var response = await client.PostAsync(url, content);
+                var result = new MessengerResponse
+                {
+                    Succeed = response.IsSuccessStatusCode,
+                    RawResponse = await response.Content.ReadAsStringAsync()
+                };
+
+                return result;
+            }
+            catch (Exception exc)
+            {
+                throw new MessengerException(exc);
+            }
+        }
+
         public async Task<MessengerResponse> SendAsync(MessengerMessage message, MessengerUser recipient, String accessToken)
         {
             var url = String.Format(UrlTemplate, accessToken);

@@ -9,5 +9,9 @@ namespace Messenger.Client.Services
         Task<MessengerResponse> SendAsync(MessengerMessage message, MessengerUser recipient);
 
         Task<MessengerResponse> SendAsync(MessengerMessage message, MessengerUser recipient, String accessToken);
+
+        Task<MessengerResponse> SendActionAsync(string senderAction, MessengerUser recipient);
+
+        Task<MessengerResponse> SendActionAsync(string senderAction, MessengerUser recipient, String accessToken);
     }
 }
