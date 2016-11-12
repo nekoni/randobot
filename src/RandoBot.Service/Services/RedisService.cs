@@ -1,4 +1,6 @@
 using System;
+using System.Net;
+using System.Net.Sockets;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -22,13 +24,21 @@ namespace RandoBot.Service.Services
         {
             this.logger = logger;
 
+            var server = Environment.GetEnvironmentVariable("REDIS_SERVER");
+            if (server == null) 
+            {
+                throw new Exception("Cannot find REDIS_SERVER in this env.");
+            }
+
+            var serverIp = this.GetServerIp(server);
+
             var connectionString = Environment.GetEnvironmentVariable("REDIS_CONNECTION_STRING");
             if (connectionString == null) 
             {
                 throw new Exception("Cannot find REDIS_CONNECTION_STRING in this env.");
             }
 
-            var connection = ConnectionMultiplexer.Connect(connectionString);
+            var connection = ConnectionMultiplexer.Connect(server + connectionString);
             this.database = connection.GetDatabase();
         }
 
@@ -84,6 +94,21 @@ namespace RandoBot.Service.Services
                     throw new Exception("Value cannot be deleted");
                 }
             }
+        }
+
+        private string GetServerIp(string server)
+        {
+            var addresslist = Dns.GetHostAddressesAsync(server).Result;
+
+            foreach (IPAddress address in addresslist)
+            {
+                if (address.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    return address.ToString();
+                }
+            }
+
+            return null;
         }
     }
 }
