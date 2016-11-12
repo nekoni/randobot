@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Swashbuckle.Swagger.Model;
 using Messenger.Client.Extensions;
 using RandoBot.Service.Repositories;
+using RandoBot.Service.Services;
 
 namespace RandoBot.Service
 {
@@ -54,10 +55,13 @@ namespace RandoBot.Service
 
             services.AddMvc();
 
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IPictureRepository, PictureRepository>();
+            services.AddScoped<UserRepository, UserRepository>();
+            services.AddScoped<PictureRepository, PictureRepository>();
+            services.AddSingleton<RedisService, RedisService>();
+            services.AddSingleton<RedisService, RedisService>();
 
-            services.AddSwaggerGen(options => {
+            services.AddSwaggerGen(options =>
+            {
                 options.SingleApiVersion(new Info
                 {
                     Version = "v1",

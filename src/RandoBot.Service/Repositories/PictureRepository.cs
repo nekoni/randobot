@@ -11,7 +11,7 @@ namespace RandoBot.Service.Repositories
     /// <summary>
     /// The picture repository.
     /// </summary>
-    public class PictureRepository : MongoRepository, IPictureRepository
+    public class PictureRepository : MongoRepository
     {
         private string cloudName;
 

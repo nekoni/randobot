@@ -8,7 +8,7 @@ namespace RandoBot.Service.Repositories
     /// <summary>
     /// The user repository class.
     /// </summary>
-    public class UserRepository : MongoRepository, IUserRepository
+    public class UserRepository : MongoRepository
     {
         private IMongoCollection<User> collection;
 
