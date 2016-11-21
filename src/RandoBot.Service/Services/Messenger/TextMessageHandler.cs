@@ -1,6 +1,10 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Messenger.Client.Objects;
+using WitAi;
+using WitAi.Models;
 
 namespace RandoBot.Service.Services.Messenger
 {
@@ -9,6 +13,8 @@ namespace RandoBot.Service.Services.Messenger
     /// </summary>
     public class TextMessageHandler : MessageHandler, IMessageHandler
     {
+        private string witAiToken;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="TextMessageHandler" /> class.
         /// </summary>
@@ -16,6 +22,11 @@ namespace RandoBot.Service.Services.Messenger
         public TextMessageHandler (MessageProcessorService processor) 
             : base(processor)
         {
+            this.witAiToken = Environment.GetEnvironmentVariable("WITAI_TOKEN");
+            if (this.witAiToken == null) 
+            {
+                throw new Exception("Cannot find WITAI_TOKEN in this env.");
+            }            
         }
         
         /// <summary>
@@ -41,9 +52,38 @@ namespace RandoBot.Service.Services.Messenger
                 return false;
             }
 
+            var conversationContext = await this.Processor.RedisService.FindOrCreateAsync(sender.Id, new ConversationContext { Id = Guid.NewGuid().ToString() });
+            var witConversation = new WitConversation<ConversationContext>(
+                witAiToken, 
+                conversationContext.Id, 
+                conversationContext, 
+                this.DoMerge, 
+                this.DoSay, 
+                this.DoAction, 
+                this.DoStop);
+
             await this.SendTextAsync(sender, "let's exchange some pictures! Send me yours first :)", 1000);
 
             return true;
+        }
+
+        private ConversationContext DoMerge(string conversationId, ConversationContext context, Dictionary<string, List<Entity>> entities, double confidence)
+        {
+            return context;
+        }
+
+        private void DoSay(string conversationId, ConversationContext context, string msg, double confidence)
+        {
+        }
+
+        private ConversationContext DoAction(string conversationId, ConversationContext context, string action, Dictionary<string, List<Entity>> entities, double confidence)
+        {
+            return context;
+        }
+
+        private ConversationContext DoStop(string conversationId, ConversationContext context)
+        {
+            return context;
         }
     }
 }

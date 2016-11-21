@@ -23,16 +23,19 @@ namespace RandoBot.Service.Services
         /// <param name="sender">The message sender.</param>
         /// <param name="userRepository">The user repository.</param>
         /// <param name="pictureRepository">The picture repository.</param>
+        /// <param name="redisService">The redis service.</param>
         public MessageProcessorService (
             ILogger<MessageProcessorService> logger,
             IMessengerMessageSender sender, 
             UserRepository userRepository, 
-            PictureRepository pictureRepository)
+            PictureRepository pictureRepository,
+            RedisService redisService)
         {
             this.Logger = logger;
             this.Sender = sender;
             this.UserRepository = userRepository;
             this.PictureRepository = pictureRepository;
+            this.RedisService = redisService;
 
             this.handlers.Add(new HelpMessageHandler(this));
             this.handlers.Add(new TextMessageHandler(this));
@@ -58,6 +61,11 @@ namespace RandoBot.Service.Services
         /// The picture repository.
         /// </summary>
         public PictureRepository PictureRepository { get; set; }
+
+        /// <summary>
+        /// The redis service.
+        /// </summary>
+        public RedisService RedisService { get; set; }
 
         /// <summary>
         /// Processes a message;

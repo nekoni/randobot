@@ -1,0 +1,21 @@
+{
+  "version": "0.0.1",
+  "title": "Wit.ai .NET Client",
+  "description": ".NET Client for Wit.ai Platform.",
+  "authors": [ "Ported by MIGA" ],
+
+  "packOptions": {
+    "licenseUrl": "http://www.opensource.org/licenses/MIT"
+  },
+
+  "dependencies": {
+    "Microsoft.NETCore.App": "1.0.0",
+    "Newtonsoft.Json": "9.0.1"
+  },
+
+  "frameworks": {
+    "netcoreapp1.0": {
+      "imports": [ "dotnet5.6", "portable-net45+win8+wp8" ]
+    }
+  }
+}

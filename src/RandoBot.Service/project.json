@@ -26,11 +26,12 @@
     "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0",
     "Swashbuckle.SwaggerGen": "6.0.0-beta901",
     "Swashbuckle.SwaggerUi": "6.0.0-beta901",
-    "Messenger.Client": "0.2.5",
-    "Messenger.Client.Extensions": "0.2.5",
+    "Messenger.Client": { "target" : "project" },
+    "Messenger.Client.Extensions": { "target" : "project" },
     "MongoDB.Driver": "2.4.0-beta1",
     "StackExchange.Redis": "1.1.608",
-    "Newtonsoft.Json": "9.0.1"
+    "Newtonsoft.Json": "9.0.1",
+    "WitAi": { "target" : "project" }
   },
 
   "tools": {
