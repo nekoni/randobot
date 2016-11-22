@@ -30,6 +30,10 @@ namespace RandoBot.Service.Controllers
             this.logger = logger;
             this.processor = processor;
             this.verifyToken = Environment.GetEnvironmentVariable("VERIFY_TOKEN");
+            if (this.verifyToken == null) 
+            {
+                throw new Exception("Cannot find VERIFY_TOKEN in this env.");
+            }     
         }
 
         /// <summary>
@@ -62,6 +66,12 @@ namespace RandoBot.Service.Controllers
             {
                 foreach (var messaging in entry.Messaging)
                 {
+                    if (messaging.Sender.Id == "1614435598861752")
+                        continue;
+
+                    if (messaging.Message == null)
+                        continue;
+                        
                     var result = await processor.ProcessMessageAsync(messaging);
 
                     if (result == false)

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Messenger.Client.Objects;
-using WitAi;
 using WitAi.Models;
 
 namespace RandoBot.Service.Services.Messenger
@@ -53,18 +52,65 @@ namespace RandoBot.Service.Services.Messenger
             }
 
             var conversationContext = await this.Processor.RedisService.FindOrCreateAsync(sender.Id, new ConversationContext { Id = Guid.NewGuid().ToString() });
-            var witConversation = new WitConversation<ConversationContext>(
-                witAiToken, 
-                conversationContext.Id, 
-                conversationContext, 
-                this.DoMerge, 
-                this.DoSay, 
-                this.DoAction, 
-                this.DoStop);
+            // var witConversation = new WitConversation<ConversationContext>(
+            //     witAiToken, 
+            //     conversationContext.Id, 
+            //     conversationContext, 
+            //     this.DoMerge, 
+            //     this.DoSay, 
+            //     this.DoAction, 
+            //     this.DoStop);
 
-            await this.SendTextAsync(sender, "let's exchange some pictures! Send me yours first :)", 1000);
+            // var result = await witConversation.SendMessageAsync(message.Text);
+            
+            var witClient = new WitAi.WitClient(witAiToken);
+            var response = await witClient.GetMessageAsync(message.Text);
 
-            return true;
+            if (response.Entities != null)
+            {
+                if (response.Entities.Count == 0)
+                {
+                    await this.SendTextAsync(sender, "I didn't quite get that, I'm a still a bit silly ATM :/" , 3000);    
+                }
+                else
+                {
+                    foreach(var entity in response.Entities)
+                    {
+                        foreach (var value in entity.Value)
+                        {
+                            if (value.Confidence > 0.5)
+                            {
+                                var intent = value.Value.ToString();
+
+                                switch(intent)
+                                {
+                                    case "Greetings":
+                                        await this.SendTextAsync(sender, "Hi :)" , 1000);    
+                                        break;
+                                    case "Feeling":
+                                    case "Feelings":
+                                        await this.SendTextAsync(sender, "I'm fine thanks! :)" , 2000);    
+                                        break;
+                                    case "Identity":
+                                        await this.SendTextAsync(sender, "I'm rando bot!" , 2000);    
+                                        break;
+                                    default :
+                                        await this.SendTextAsync(sender, "I didn't quite get that, I'm a still a bit silly ATM :/" , 3000);
+                                        break;   
+                                }
+
+                                return true;
+                            }
+                            else
+                            {
+                                await this.SendTextAsync(sender, "I didn't quite get that, I'm a still a bit silly ATM :/" , 3000);    
+                            }
+                        }
+                    }
+                }
+            }
+            
+            return false;
         }
 
         private ConversationContext DoMerge(string conversationId, ConversationContext context, Dictionary<string, List<Entity>> entities, double confidence)
@@ -74,10 +120,25 @@ namespace RandoBot.Service.Services.Messenger
 
         private void DoSay(string conversationId, ConversationContext context, string msg, double confidence)
         {
+            var message = msg;
         }
 
         private ConversationContext DoAction(string conversationId, ConversationContext context, string action, Dictionary<string, List<Entity>> entities, double confidence)
         {
+            if (entities != null)
+            {
+                foreach (var entry in entities)
+                {
+                    if (entry.Key == "intent")
+                    {
+                        foreach (var entity in entry.Value)
+                        {
+                            var token = entity.Value.FirstOrDefault();                        
+                        }
+                    }
+                }
+            }
+            
             return context;
         }
 

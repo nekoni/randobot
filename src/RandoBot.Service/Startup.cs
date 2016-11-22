@@ -58,7 +58,7 @@ namespace RandoBot.Service
             services.AddScoped<UserRepository, UserRepository>();
             services.AddScoped<PictureRepository, PictureRepository>();
             services.AddSingleton<RedisService, RedisService>();
-            services.AddSingleton<RedisService, RedisService>();
+            services.AddSingleton<MessageProcessorService, MessageProcessorService>();
 
             services.AddSwaggerGen(options =>
             {

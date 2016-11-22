@@ -33,7 +33,7 @@ namespace RandoBot.Service.Services.Messenger
         /// <returns>A task.</returns>
         public async Task SimulateTypingAsync(MessengerUser recipient, int duration)
         {
-            await this.Processor.Sender.SendActionAsync(MessengerSenderAction.TypingOn, recipient);
+            await this.Processor.MessageSender.SendActionAsync(MessengerSenderAction.TypingOn, recipient);
             await Task.Run(() => System.Threading.Thread.Sleep(duration));
         }
 
@@ -59,7 +59,7 @@ namespace RandoBot.Service.Services.Messenger
         public async Task SendTextAsync(MessengerUser recipient, string text)
         {
             var response = new MessengerMessage { Text = text };
-            await this.Processor.Sender.SendAsync(response, recipient);
+            await this.Processor.MessageSender.SendAsync(response, recipient);
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace RandoBot.Service.Services.Messenger
             response.Attachment.Type = "image";
             response.Attachment.Payload = new MessengerPayload();
             response.Attachment.Payload.Url = url;
-            await this.Processor.Sender.SendAsync(response, recipient);
+            await this.Processor.MessageSender.SendAsync(response, recipient);
         }
 
         /// <summary>

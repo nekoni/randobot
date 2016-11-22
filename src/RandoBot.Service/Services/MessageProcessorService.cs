@@ -20,19 +20,19 @@ namespace RandoBot.Service.Services
         /// /// Initializes a new instance of the <see cref="MessageHandler" /> class.
         /// </summary>
         /// <param name="logger">The logger.</param>
-        /// <param name="sender">The message sender.</param>
+        /// <param name="messageSender">The message sender.</param>
         /// <param name="userRepository">The user repository.</param>
         /// <param name="pictureRepository">The picture repository.</param>
         /// <param name="redisService">The redis service.</param>
         public MessageProcessorService (
             ILogger<MessageProcessorService> logger,
-            IMessengerMessageSender sender, 
+            IMessengerMessageSender messageSender, 
             UserRepository userRepository, 
             PictureRepository pictureRepository,
             RedisService redisService)
         {
             this.Logger = logger;
-            this.Sender = sender;
+            this.MessageSender = messageSender;
             this.UserRepository = userRepository;
             this.PictureRepository = pictureRepository;
             this.RedisService = redisService;
@@ -45,7 +45,7 @@ namespace RandoBot.Service.Services
         /// <summary>
         /// The sender.
         /// </summary>
-        public IMessengerMessageSender Sender { get; set; }
+        public IMessengerMessageSender MessageSender { get; set; }
 
         /// <summary>
         /// The logger.
@@ -76,7 +76,7 @@ namespace RandoBot.Service.Services
         {
             var processed = false;
 
-            await this.Sender.SendActionAsync(MessengerSenderAction.MarkSeen, messageContainer.Sender);
+            await this.MessageSender.SendActionAsync(MessengerSenderAction.MarkSeen, messageContainer.Sender);
 
             foreach (var handler in this.handlers)
             {
