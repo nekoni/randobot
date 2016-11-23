@@ -82,11 +82,6 @@ namespace RandoBot.Service.Services
             {
                 try
                 {
-                    if (messageContainer.Message == null || messageContainer.Sender == null)
-                    {
-                        break;
-                    }
-
                     var result = await handler.HandleMessageAsync(messageContainer);
                 
                     if (result)

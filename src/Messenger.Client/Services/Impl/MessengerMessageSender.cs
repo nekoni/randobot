@@ -64,6 +64,9 @@ namespace Messenger.Client.Services.Impl
             var request = new MessengerSendMessageRequest { Recipient = recipient, Message = message };
             var strings = serializer.Serialize(request);
 
+#if DEBUG
+            System.Console.WriteLine(strings);
+#endif
             /*if (message.Attachments != null && message.Attachments.Count > 0)
                 throw new Exception(strings);*/
 

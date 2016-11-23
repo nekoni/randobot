@@ -27,7 +27,7 @@ namespace RandoBot.Service.Services.Messenger
             var message = messageContainer.Message;
             var sender = messageContainer.Sender;
 
-            if (message.Text == "help")
+            if (message?.Text == "help" || messageContainer?.Postback.Payload == "help")
             {
                 await this.SimulateTypingAsync(sender, 1000);
                 

@@ -89,10 +89,11 @@ namespace RandoBot.Service.Services.Messenger
         public async Task SendTextWithButtonsAsync(MessengerUser recipient, string text, IEnumerable<MessengerButtonBase> buttons)
         {
             var response = new MessengerMessage();
-            response.Text = text;
             response.Attachment = new MessengerAttachment();
             response.Attachment.Type = "template";
             response.Attachment.Payload = new MessengerPayload();
+            response.Attachment.Payload.TemplateType = "button";
+            response.Attachment.Payload.Text = text;
             response.Attachment.Payload.Buttons = new List<MessengerButton>();
 
             foreach (var button in buttons)
@@ -114,6 +115,8 @@ namespace RandoBot.Service.Services.Messenger
                     payloadButton.Title = chatButton.Title;
                     payloadButton.Type = chatButton.Type;
                 }
+
+                response.Attachment.Payload.Buttons.Add(payloadButton);
             }
 
             await this.Processor.MessageSender.SendAsync(response, recipient);

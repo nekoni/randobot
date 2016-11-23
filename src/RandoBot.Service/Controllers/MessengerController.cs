@@ -69,9 +69,14 @@ namespace RandoBot.Service.Controllers
                     if (messaging.Sender.Id == "1614435598861752")
                         continue;
 
-                    if (messaging.Message == null)
+                    if (messaging.Message == null && messaging.Postback == null)
                         continue;
-                        
+
+                    if (messaging.Sender == null)
+                    {
+                        continue;
+                    }
+                    
                     var result = await processor.ProcessMessageAsync(messaging);
 
                     if (result == false)

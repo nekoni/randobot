@@ -72,7 +72,7 @@ namespace RandoBot.Service.Services.Messenger
                 {
                     var buttons = new List<MessengerButtonBase>();
                     buttons.Add(new MessengerLinkButton("help web", "http://rando-bot.com"));
-                    buttons.Add(new MessengerChatButton("help chat", "help"));
+                    buttons.Add(new MessengerChatButton("help", "help"));
 
                     await this.SendTextWithButtonsAsync(sender, "I didn't quite get that, I'm a still a bit silly ATM :/" , buttons);
                 }
