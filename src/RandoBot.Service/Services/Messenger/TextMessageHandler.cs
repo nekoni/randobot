@@ -70,7 +70,11 @@ namespace RandoBot.Service.Services.Messenger
             {
                 if (response.Entities.Count == 0)
                 {
-                    await this.SendTextAsync(sender, "I didn't quite get that, I'm a still a bit silly ATM :/" , 3000);    
+                    var buttons = new List<MessengerButtonBase>();
+                    buttons.Add(new MessengerLinkButton("help web", "http://rando-bot.com"));
+                    buttons.Add(new MessengerChatButton("help chat", "help"));
+
+                    await this.SendTextWithButtonsAsync(sender, "I didn't quite get that, I'm a still a bit silly ATM :/" , buttons);
                 }
                 else
                 {

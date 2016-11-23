@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Messenger.Client.Objects;
 using Messenger.Client.Services.Impl;
@@ -75,6 +76,46 @@ namespace RandoBot.Service.Services.Messenger
             response.Attachment.Type = "image";
             response.Attachment.Payload = new MessengerPayload();
             response.Attachment.Payload.Url = url;
+            await this.Processor.MessageSender.SendAsync(response, recipient);
+        }
+
+        /// <summary>
+        /// Seds a button to the user.
+        /// </summary>
+        /// <param name="recipient">The messenger user.</param>
+        /// <param name="text">The text.</param>
+        /// <param name="buttons">The buttons.</param>
+        /// <returns>A task.</returns>
+        public async Task SendTextWithButtonsAsync(MessengerUser recipient, string text, IEnumerable<MessengerButtonBase> buttons)
+        {
+            var response = new MessengerMessage();
+            response.Text = text;
+            response.Attachment = new MessengerAttachment();
+            response.Attachment.Type = "template";
+            response.Attachment.Payload = new MessengerPayload();
+            response.Attachment.Payload.Buttons = new List<MessengerButton>();
+
+            foreach (var button in buttons)
+            {
+                var payloadButton = new MessengerButton();
+                
+                if (button is MessengerLinkButton)
+                {
+                    var linkButton = button as MessengerLinkButton;
+                    payloadButton.Url = linkButton.Url;
+                    payloadButton.Title = linkButton.Title;
+                    payloadButton.Type = linkButton.Type;
+                }
+
+                if (button is MessengerChatButton)
+                {
+                    var chatButton = button as MessengerChatButton;
+                    payloadButton.Payload = chatButton.Payload;
+                    payloadButton.Title = chatButton.Title;
+                    payloadButton.Type = chatButton.Type;
+                }
+            }
+
             await this.Processor.MessageSender.SendAsync(response, recipient);
         }
 
