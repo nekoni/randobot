@@ -3,6 +3,18 @@
   "version": 2,
   "targets": {
     ".NETCoreApp,Version=v1.0": {
+      "JetBrains.Annotations/10.2.1": {
+        "type": "package",
+        "dependencies": {
+          "System.Runtime": "4.1.0"
+        },
+        "compile": {
+          "lib/netstandard1.0/JetBrains.Annotations.NetStandard.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.0/JetBrains.Annotations.NetStandard.dll": {}
+        }
+      },
       "Libuv/1.9.0": {
         "type": "package",
         "dependencies": {
@@ -41,6 +53,19 @@
             "assetType": "native",
             "rid": "win7-x86"
           }
+        }
+      },
+      "MetadataExtractor/2.0.0-rc1": {
+        "type": "package",
+        "dependencies": {
+          "NETStandard.Library": "1.6.0",
+          "XmpCore": "2.0.0-rc2"
+        },
+        "compile": {
+          "lib/netstandard1.3/MetadataExtractor.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/MetadataExtractor.dll": {}
         }
       },
       "Microsoft.AspNetCore.Antiforgery/1.0.0": {
@@ -4009,6 +4034,19 @@
           "lib/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
         }
       },
+      "XmpCore/2.0.0-rc2": {
+        "type": "package",
+        "dependencies": {
+          "JetBrains.Annotations": "10.2.1",
+          "NETStandard.Library": "1.6.0"
+        },
+        "compile": {
+          "lib/netstandard1.0/XmpCore.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.0/XmpCore.dll": {}
+        }
+      },
       "Messenger.Client/0.2.5": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v1.0",
@@ -4055,6 +4093,23 @@
     }
   },
   "libraries": {
+    "JetBrains.Annotations/10.2.1": {
+      "sha512": "yTPQ3CsP2I/3vgAsXWby3Bf+dbzsQC5I8/aOsktLi/cSvr50tVTANcL5rTrEmIllbEhZbtZ0rxzxJ2RU8UkMRg==",
+      "type": "package",
+      "path": "JetBrains.Annotations/10.2.1",
+      "files": [
+        "JetBrains.Annotations.10.2.1.nupkg.sha512",
+        "JetBrains.Annotations.nuspec",
+        "lib/net/JetBrains.Annotations.dll",
+        "lib/net/JetBrains.Annotations.xml",
+        "lib/netstandard1.0/JetBrains.Annotations.NetStandard.dll",
+        "lib/netstandard1.0/JetBrains.Annotations.NetStandard.xml",
+        "lib/portable-net4+sl4+wp7+netcore45/JetBrains.Annotations.PCL1.dll",
+        "lib/portable-net4+sl4+wp7+netcore45/JetBrains.Annotations.PCL1.xml",
+        "lib/portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1/JetBrains.Annotations.PCL328.dll",
+        "lib/portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1/JetBrains.Annotations.PCL328.xml"
+      ]
+    },
     "Libuv/1.9.0": {
       "sha512": "5rL2EOMfAisuimsIKlBqhdrKYkjEy8Q6xYHG8/5/t72OtgBzPRe/ZKppotv5IXO9UgM7m5rfcttY6uqKsC8YwQ==",
       "type": "package",
@@ -4071,6 +4126,20 @@
         "runtimes/win7-arm/native/libuv.dll",
         "runtimes/win7-x64/native/libuv.dll",
         "runtimes/win7-x86/native/libuv.dll"
+      ]
+    },
+    "MetadataExtractor/2.0.0-rc1": {
+      "sha512": "fCV3HBZqfNjMqEr4xYwRfEU4qJDc/6Hp6EPQUSRag27GopAkvkbYXhekxsP0FkdHfQSnKqT1FCprsgUX1xxmIw==",
+      "type": "package",
+      "path": "MetadataExtractor/2.0.0-rc1",
+      "files": [
+        "MetadataExtractor.2.0.0-rc1.nupkg.sha512",
+        "MetadataExtractor.nuspec",
+        "lib/net35/MetadataExtractor.dll",
+        "lib/net35/MetadataExtractor.xml",
+        "lib/net45/MetadataExtractor.dll",
+        "lib/net45/MetadataExtractor.xml",
+        "lib/netstandard1.3/MetadataExtractor.dll"
       ]
     },
     "Microsoft.AspNetCore.Antiforgery/1.0.0": {
@@ -10314,6 +10383,19 @@
         "ref/xamarinwatchos10/_._"
       ]
     },
+    "XmpCore/2.0.0-rc2": {
+      "sha512": "Y4shh8Od/EcHuIPYGzqgYspwhzUA/iuJtKrdioqfcsHJ9Gp6Cgau9Qz0WMlG+2dMl4EZ67kSy3MYTU4G2OSr7A==",
+      "type": "package",
+      "path": "XmpCore/2.0.0-rc2",
+      "files": [
+        "XmpCore.2.0.0-rc2.nupkg.sha512",
+        "XmpCore.nuspec",
+        "lib/net35/XmpCore.dll",
+        "lib/net35/XmpCore.xml",
+        "lib/netstandard1.0/XmpCore.dll",
+        "lib/netstandard1.0/XmpCore.xml"
+      ]
+    },
     "Messenger.Client/0.2.5": {
       "type": "project",
       "path": "../Messenger.Client/project.json",
@@ -10334,6 +10416,7 @@
     "": [
       "Messenger.Client",
       "Messenger.Client.Extensions",
+      "MetadataExtractor >= 2.0.0-rc1",
       "Microsoft.AspNetCore.Diagnostics >= 1.0.0",
       "Microsoft.AspNetCore.Mvc >= 1.0.0",
       "Microsoft.AspNetCore.Razor.Tools >= 1.0.0-preview2-final",
