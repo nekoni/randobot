@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using Messenger.Client.Objects;
 using MetadataExtractor;
 using MetadataExtractor.Formats.Exif;
@@ -70,6 +71,11 @@ namespace RandoBot.Service.Services.Messenger
                     using (var inputStream = await response.Content.ReadAsStreamAsync())
                     {
                         var directories = ImageMetadataReader.ReadMetadata(inputStream);
+                        foreach (var directory in directories)
+                        {
+                            this.Processor.Logger.LogDebug(directory.Name);
+                        }
+
                         var gps = directories.OfType<GpsDirectory>().FirstOrDefault();
         
                         if (gps != null)
