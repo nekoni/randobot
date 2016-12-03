@@ -48,7 +48,7 @@ namespace RandoBot.Service.Services.Messenger
             await this.Processor.PictureRepository.InsertAsync(sender.Id, attachement.Payload.Url);
 
             var pictureUrl = await this.Processor.PictureRepository.GetRandomAsync(user.UserId);
-            var location = await this.GetLocationFromPictureAsync(pictureUrl);
+            var location = await this.GetLocationFromPictureAsync(attachement.Payload.Url);
 
             if (location != null)
             {
