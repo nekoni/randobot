@@ -22,20 +22,24 @@ namespace RandoBot.Service.Services
         /// <param name="logger">The logger.</param>
         /// <param name="messageSender">The message sender.</param>
         /// <param name="userRepository">The user repository.</param>
+        /// <param name="pictureRepository">The picture repository.</param>
         /// <param name="redisService">The redis service.</param>
         public MessageProcessorService (
             ILogger<MessageProcessorService> logger,
             IMessengerMessageSender messageSender, 
             UserRepository userRepository, 
+            PictureRepository pictureRepository,
             RedisService redisService)
         {
             this.Logger = logger;
             this.MessageSender = messageSender;
             this.UserRepository = userRepository;
+            this.PictureRepository = pictureRepository;
             this.RedisService = redisService;
 
             this.handlers.Add(new HelpMessageHandler(this));
             this.handlers.Add(new TextMessageHandler(this));
+            this.handlers.Add(new ImageMessageHandler(this));
         }
 
         /// <summary>
@@ -52,6 +56,11 @@ namespace RandoBot.Service.Services
         /// The user repository.
         /// </summary>
         public UserRepository UserRepository { get; set; }
+
+        /// <summary>
+        /// The picture repository.
+        /// </summary>
+        public PictureRepository PictureRepository { get; set; }
 
         /// <summary>
         /// The redis service.
@@ -87,7 +96,22 @@ namespace RandoBot.Service.Services
                 }
             }
 
+            //TODO: This should be done in a scheduled worker thread or background process.
+            await this.CleanPicturesAsync();
+
             return processed;
+        }
+
+        private async Task CleanPicturesAsync()
+        {
+            try
+            {
+                await this.PictureRepository.DeleteAsync();
+            }
+            catch(Exception ex)
+            {
+                this.Logger.LogError("Exception: {0}", ex.ToString());
+            }
         }
     }
 }
