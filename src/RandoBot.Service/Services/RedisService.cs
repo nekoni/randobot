@@ -38,7 +38,9 @@ namespace RandoBot.Service.Services
                 throw new Exception("Cannot find REDIS_CONNECTION_STRING in this env.");
             }
 
-            var connection = ConnectionMultiplexer.Connect(serverIp + connectionString);
+            var target = serverIp + connectionString;
+            logger.LogDebug(target);
+            var connection = ConnectionMultiplexer.Connect(target);
             this.database = connection.GetDatabase();
         }
 

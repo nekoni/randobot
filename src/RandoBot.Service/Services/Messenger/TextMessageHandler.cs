@@ -52,16 +52,6 @@ namespace RandoBot.Service.Services.Messenger
             }
 
             var conversationContext = await this.Processor.RedisService.FindOrCreateAsync(sender.Id, new ConversationContext { Id = Guid.NewGuid().ToString() });
-            // var witConversation = new WitConversation<ConversationContext>(
-            //     witAiToken, 
-            //     conversationContext.Id, 
-            //     conversationContext, 
-            //     this.DoMerge, 
-            //     this.DoSay, 
-            //     this.DoAction, 
-            //     this.DoStop);
-
-            // var result = await witConversation.SendMessageAsync(message.Text);
             
             var witClient = new WitAi.WitClient(witAiToken);
             var response = await witClient.GetMessageAsync(message.Text);
@@ -91,12 +81,11 @@ namespace RandoBot.Service.Services.Messenger
                                     case "Greetings":
                                         await this.SendTextAsync(sender, "Hi :)" , 1000);    
                                         break;
-                                    case "Feeling":
                                     case "Feelings":
                                         await this.SendTextAsync(sender, "I'm fine thanks! :)" , 2000);    
                                         break;
                                     case "Identity":
-                                        await this.SendTextAsync(sender, "I'm rando bot!" , 2000);    
+                                        await this.SendTextAsync(sender, "I'm transfer buddy!" , 2000);    
                                         break;
                                     default :
                                         await this.SendTextAsync(sender, "I didn't quite get that, I'm a still a bit silly ATM :/" , 3000);
@@ -115,40 +104,6 @@ namespace RandoBot.Service.Services.Messenger
             }
             
             return false;
-        }
-
-        private ConversationContext DoMerge(string conversationId, ConversationContext context, Dictionary<string, List<Entity>> entities, double confidence)
-        {
-            return context;
-        }
-
-        private void DoSay(string conversationId, ConversationContext context, string msg, double confidence)
-        {
-            var message = msg;
-        }
-
-        private ConversationContext DoAction(string conversationId, ConversationContext context, string action, Dictionary<string, List<Entity>> entities, double confidence)
-        {
-            if (entities != null)
-            {
-                foreach (var entry in entities)
-                {
-                    if (entry.Key == "intent")
-                    {
-                        foreach (var entity in entry.Value)
-                        {
-                            var token = entity.Value.FirstOrDefault();                        
-                        }
-                    }
-                }
-            }
-            
-            return context;
-        }
-
-        private ConversationContext DoStop(string conversationId, ConversationContext context)
-        {
-            return context;
         }
     }
 }
