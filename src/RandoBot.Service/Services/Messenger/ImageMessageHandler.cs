@@ -48,12 +48,12 @@ namespace RandoBot.Service.Services.Messenger
             await this.Processor.PictureRepository.InsertAsync(sender.Id, attachement.Payload.Url);
 
             var pictureUrl = await this.Processor.PictureRepository.GetRandomAsync(user.UserId);
-            var location = await this.GetLocationFromPictureAsync(attachement.Payload.Url);
+            // var location = await this.GetLocationFromPictureAsync(attachement.Payload.Url);
 
-            if (location != null)
-            {
-                await this.SendTextAsync(sender, location);
-            }
+            // if (location != null)
+            // {
+            //     await this.SendTextAsync(sender, location);
+            // }
 
             await this.SendPictureAsync(sender, pictureUrl);
 
